@@ -1,0 +1,349 @@
+<!-- Div master -->
+<div id="pg_receita" ondrop="pg_receita_drop_json(event);" ondragover="pg_receita_drop_json(event);">
+    <div id="pg_receita_drop_js" style="position: absolute;width:100%;top:2%;text-align: center;">
+        <h2 id="pg_receita_drop_js_title" class="pg_receita_title pg_receita_title_2">
+            Arraste uma receita já existente para editá-la
+        </h2>
+    </div>
+    <div id="pg_receita_elements_container">
+        <!-- Barra contendo Logo, título e passo atual -->
+        <div id="pg_receita_top_bar">
+            <ul id="pg_receita_top_bar_list">
+                <!-- Logo da IKS -->
+                <li class="pg_receita_top_bar_item" id="pg_receita_top_bar_logo_item">
+                    <div id="pg_receita_top_bar_logo_container">
+                        <img id="pg_receita_top_bar_logo" alt="Logo da IKS"/>
+                    </div>
+                </li>
+                <!-- Título de edição -->
+                <li class="pg_receita_top_bar_item" id="pg_receita_top_bar_title_item">
+                    <div id="pg_receita_top_bar_title_container">
+                        <h1 class="pg_receita_title pg_receita_title_1" id="pg_receita_top_bar_title"> Editar Receita da Lavadora </h1>
+                    </div>
+                </li>
+                <!-- Passo atual -->
+                <li class="pg_receita_top_bar_item" id="pg_receita_top_bar_step_index_item">
+                    <div id="pg_receita_top_bar_step_index_container">
+                        <h2 class="pg_receita_title pg_receita_title_2" id="pg_receita_top_bar_step_index"> Passo: 99 </h2>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- Barra contendo o nome do passo e o tempo da lavagem(se programado) -->
+        <div id="pg_receita_top">
+            <div class="pg_receita_top_section" id="pg_receita_step_name">
+                <div class="pg_receita_top_container" id="pg_receita_step_name_container">
+                    <div class="pg_receita_top_item" id="pg_receita_step_name_title_container">
+                        <h2 class="pg_receita_title pg_receita_title_2" id="pg_receita_step_name_title"> Nome do passo: </h2>
+                    </div>
+                    <div class="pg_receita_top_item" id="pg_receita_step_name_input_container">
+                        <input class="pg_receita_input" id="pg_receita_step_name_input" style="width: 70%;;" type="text"/>
+                    </div>
+                </div>
+            </div>
+            <div class="pg_receita_top_section" id="pg_receita_step_time" style="display: none;">
+                <div class="pg_receita_top_container" id="pg_receita_step_time_container">
+                    <div class="pg_receita_top_item" id="pg_receita_step_time_icon_container">
+                        <img class="pg_receita_top_icon" id="pg_receita_step_time_icon"/>
+                    </div>
+                    <div class="pg_receita_top_item" id="pg_receita_step_time_input_container">
+                        <input class="pg_receita_input" id="pg_receita_step_time_input" type="number" min="1"/>
+                        <span style="font-family: sans-serif; font-size: 1.2em; margin-left: 2%; color: rgb(7, 90, 164); font-weight: bold;"> (min) </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Opções de lavagem -->
+        <div id="pg_receita_options">
+            <!-- Geral -->
+            <ul class="pg_receita_options_list" id="pg_receita_options_list_geral">
+                <!-- Carregar -->
+                <li class="pg_receita_options_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Carregar máquina"  id="pg_receita_options_carregar" onclick="pg_receita_carregar_maquina()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Lavar"  id="pg_receita_options_lavar" onclick="pg_receita_lavar()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Centrifugar"  id="pg_receita_options_centrifugar" onclick="pg_receita_centrifugar()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Dreno 1"  id="pg_receita_options_dreno" onclick="pg_receita_dreno()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Descarregar máquina"  id="pg_receita_options_descarregar" onclick="pg_receita_descarregar_maquina()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Dreno 2"  id="pg_receita_options_reuso" onclick="pg_receita_reuso()">
+                    </div>
+                </li>
+            </ul>
+            <!-- Lavar -->
+            <ul style="display:none" class="pg_receita_options_list" id="pg_receita_options_list_lavar">
+                <li class="pg_receita_options_lavar_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Água 1" id="pg_receita_options_lavar_agua_1" onclick="pg_receita_lavar_agua_1()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_lavar_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Nível Baixo"  id="pg_receita_options_lavar_baixo" onclick="pg_receita_lavar_nivel_baixo()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_lavar_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Nível Médio"  id="pg_receita_options_lavar_medio" onclick="pg_receita_lavar_nivel_medio()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_lavar_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Nível Alto"  id="pg_receita_options_lavar_alto" onclick="pg_receita_lavar_nivel_alto()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_lavar_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Água 2"  id="pg_receita_options_lavar_agua_2" onclick="pg_receita_lavar_agua_2()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_lavar_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Aquecer" id="pg_receita_options_lavar_aquecer" onclick="pg_receita_screen_lavar_aquecer()">
+                    </div>
+                </li>
+                <li class="pg_receita_options_lavar_item">
+                    <div class="pg_receita_options_item_container">
+                        <img class="pg_receita_options_image" title="Aplicar Produtos" id="pg_receita_options_lavar_produtos" onclick="pg_receita_screen_produtos()"/>
+                    </div>
+                </li>
+                <li class="pg_receita_options_lavar_item">
+                    <div class="pg_receita_options_item_container" style="width: 100%; max-width: 70px; align-self: end; justify-self: end;">
+                        <img class="pg_receita_options_image" title="Voltar"  id="pg_receita_options_lavar_back" onclick="pg_receita_lavar_back()">
+                    </div>
+                </li>
+            </ul>
+            <!-- Aquecer -->
+            <ul style="display:none" class="pg_receita_options_list_table" id="pg_receita_options_list_aquecer">
+                <li class="pg_receita_options_table_item">
+                    <div class="pg_receita_options_table_container pg_receita_options_table_title_container">
+                        <h3 class="pg_receita_options_table_title pg_receita_title pg_receita_title_3">
+                            Aquecimento: 
+                        </h3>
+                    </div>
+                    <div class="pg_receita_options_table_container pg_receita_options_table_input_container">
+                        <input class="pg_receita_options_table_input" id="pg_receita_options_lavar_aquecer_input" type="button" value="Desligado" onclick="pg_receita_lavar_aquecer_aquecimento()"/>
+                    </div>
+                </li>
+                <li class="pg_receita_options_table_item">
+                    <div class="pg_receita_options_table_container pg_receita_options_table_title_container">
+                        <h3 class="pg_receita_options_table_title pg_receita_title pg_receita_title_3">
+                            Setpoint(°C): 
+                        </h3>
+                    </div>
+                    <div class="pg_receita_options_table_container pg_receita_options_table_input_container">
+                        <input class="pg_receita_options_table_input" id="pg_receita_options_lavar_setpoint_input" type="number" min="1" value="0"/>
+                    </div>
+                </li>
+                <li class="pg_receita_options_table_item">
+                    <div class="pg_receita_options_table_container pg_receita_options_table_title_container">
+                        <h3 class="pg_receita_options_table_title pg_receita_title pg_receita_title_3">
+                            Aguardar Patamar?
+                        </h3>
+                    </div>
+                    <div class="pg_receita_options_table_container pg_receita_options_table_input_container">
+                        <input class="pg_receita_options_table_input" id="pg_receita_options_lavar_patamar_input" type="button" value="Não" onclick="pg_receita_lavar_aquecer_patamar()"/>
+                    </div>
+                </li>
+                <li class="pg_receita_options_table_item">
+                    <div class="pg_receita_options_table_container pg_receita_options_table_title_container">
+                        <h3 class="pg_receita_options_table_title pg_receita_title pg_receita_title_3">
+                            Manter Temperatura?
+                        </h3>
+                    </div>
+                    <div class="pg_receita_options_table_container pg_receita_options_table_input_container">
+                        <input class="pg_receita_options_table_input" id="pg_receita_options_lavar_manter_input" type="button" value="Não" onclick="pg_receita_lavar_aquecer_manter()"/>
+                    </div>
+                    <div style="position: absolute; margin-left: 75%; width: 100%; max-width: 70px;">
+                        <img class="pg_receita_options_image" title="Voltar" style="width: 100%;"  id="pg_receita_options_lavar_aquecer_back" onclick="pg_receita_lavar_aquecer_back()">
+                    </div>
+                </li>
+            </ul>
+            <!-- Produtos -->
+            <ul style="display:none" class="pg_receita_options_list" id="pg_receita_options_list_produtos">
+                <li class="pg_receita_options_item pg_receita_options_item_produto">
+                    <div class="pg_receita_options_item_container pg_receita_options_item_produto_container">
+                        <div class="pg_receita_options_title_container">
+                            <h3 class="pg_receita_title pg_receita_title_3 pg_receita_options_title"> Produto 1 </h3>
+                        </div>
+                        <div class="pg_receita_options_input_container">
+                            <input class="pg_receita_input" type="number" min="1" id="pg_receita_options_input_produto_1" onclick="pg_receita_lavar_produtos()"/>
+                        </div>
+                    </div>
+                </li>
+                <li class="pg_receita_options_item pg_receita_options_item_produto">
+                    <div class="pg_receita_options_item_container pg_receita_options_item_produto_container">
+                        <div class="pg_receita_options_title_container">
+                            <h3 class="pg_receita_title pg_receita_title_3 pg_receita_options_title"> Produto 2 </h3>
+                        </div>
+                        <div class="pg_receita_options_input_container">
+                            <input class="pg_receita_input" type="number" min="1" id="pg_receita_options_input_produto_2" onclick="pg_receita_lavar_produtos()"/>
+                        </div>
+                    </div>
+                </li>
+                <li class="pg_receita_options_item pg_receita_options_item_produto">
+                    <div class="pg_receita_options_item_container pg_receita_options_item_produto_container">
+                        <div class="pg_receita_options_title_container">
+                            <h3 class="pg_receita_title pg_receita_title_3 pg_receita_options_title"> Produto 3 </h3>
+                        </div>
+                        <div class="pg_receita_options_input_container">
+                            <input class="pg_receita_input" type="number" min="1" id="pg_receita_options_input_produto_3" onclick="pg_receita_lavar_produtos()"/>
+                        </div>
+                    </div>
+                </li>
+                <li class="pg_receita_options_item pg_receita_options_item_produto">
+                    <div class="pg_receita_options_item_container pg_receita_options_item_produto_container">
+                        <div class="pg_receita_options_title_container">
+                            <h3 class="pg_receita_title pg_receita_title_3 pg_receita_options_title"> Produto 4 </h3>
+                        </div>
+                        <div class="pg_receita_options_input_container">
+                            <input class="pg_receita_input" type="number" min="1" id="pg_receita_options_input_produto_4" onclick="pg_receita_lavar_produtos()"/>
+                        </div>
+                    </div>
+                </li>
+                <li class="pg_receita_options_item pg_receita_options_item_produto">
+                    <div class="pg_receita_options_item_container pg_receita_options_item_produto_container">
+                        <div class="pg_receita_options_title_container">
+                            <h3 class="pg_receita_title pg_receita_title_3 pg_receita_options_title"> Produto 5 </h3>
+                        </div>
+                        <div class="pg_receita_options_input_container">
+                            <input class="pg_receita_input" type="number" min="1" id="pg_receita_options_input_produto_5" onclick="pg_receita_lavar_produtos()"/>
+                        </div>
+                    </div>
+                </li>
+                <li class="pg_receita_options_item pg_receita_options_item_produto">
+                    <div class="pg_receita_options_item_container pg_receita_options_item_produto_container">
+                        <div class="pg_receita_options_title_container">
+                            <h3 class="pg_receita_title pg_receita_title_3 pg_receita_options_title"> Produto 6 </h3>
+                        </div>
+                        <div class="pg_receita_options_input_container">
+                            <input class="pg_receita_input" type="number" min="1" id="pg_receita_options_input_produto_6" onclick="pg_receita_lavar_produtos()"/>
+                        </div>
+                    </div>
+                </li>
+                <li class="pg_receita_options_item pg_receita_options_item_produto">
+                    <div class="pg_receita_options_item_container pg_receita_options_item_produto_container">
+                        <div class="pg_receita_options_title_container">
+                            <h3 class="pg_receita_title pg_receita_title_3 pg_receita_options_title"> Produto 7 </h3>
+                        </div>
+                        <div class="pg_receita_options_input_container">
+                            <input class="pg_receita_input" type="number" min="1" id="pg_receita_options_input_produto_7" onclick="pg_receita_lavar_produtos()"/>
+                        </div>
+                    </div>
+                </li>
+                <li class="pg_receita_options_item pg_receita_options_item_produto">
+                    <div class="pg_receita_options_item_container pg_receita_options_item_produto_container">
+                        <div class="pg_receita_options_title_container">
+                            <h3 class="pg_receita_title pg_receita_title_3 pg_receita_options_title"> Produto 8 </h3>
+                        </div>
+                        <div class="pg_receita_options_input_container">
+                            <input class="pg_receita_input" type="number" min="1" id="pg_receita_options_input_produto_8" onclick="pg_receita_lavar_produtos()"/>
+                        </div>
+                    </div>
+                    <div style="position: absolute; margin-left: 65%; margin-bottom: 25%; width: 100%; max-width: 70px;">
+                        <img class="pg_receita_options_image" title="Voltar" style="width: 100%;"  id="pg_receita_options_lavar_produtos_back" onclick="pg_receita_lavar_produtos_back()"/>
+                    </div>
+                </li>
+                <li class="pg_receita_options_item pg_receita_options_item_produto">
+                    <div class="pg_receita_options_item_container pg_receita_options_item_produto_container">
+                        <div class="pg_receita_options_title_container">
+                            <h3 class="pg_receita_title pg_receita_title_3 pg_receita_options_title"> Unidade </h3>
+                        </div>
+                        <div class="pg_receita_options_input_container">
+                            <input class="pg_receita_options_table_input" type="button" id="pg_receita_options_input_produto_medida" onclick="pg_receita_lavar_produtos_medida()" value="Mililitros" style="width: 100%" onclick=""/>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- Centrifugar -->
+            <ul style="display:none" class="pg_receita_options_list_table" id="pg_receita_options_list_centrifugar">
+                <li class="pg_receita_options_table_item">
+                    <div class="pg_receita_options_table_container pg_receita_options_table_title_container">
+                        <h3 class="pg_receita_options_table_title pg_receita_title pg_receita_title_3">
+                            Tempo (min):
+                        </h3>
+                    </div>
+                    <div class="pg_receita_options_table_container pg_receita_options_table_input_container" style="justify-content: center;">
+                        <input class="pg_receita_options_table_input" id="pg_receita_options_centrifugar_tempo_input" type="number" min="1" value="0"/>
+                    </div>
+                </li>
+                <li class="pg_receita_options_table_item">
+                    <div class="pg_receita_options_table_container pg_receita_options_table_title_container">
+                        <h3 class="pg_receita_options_table_title pg_receita_title pg_receita_title_3">
+                            Selecione o Dreno:
+                        </h3>
+                    </div>
+                    <div class="pg_receita_options_table_container pg_receita_options_table_input_container" style="width: 30%; height: 100px;">
+                        <img style="width: 100px; height: 100px; padding: 0% 11%; cursor: pointer;"  id="pg_receita_options_centrifugar_dreno_1" onclick="pg_receita_centrifugar_dreno_1()"/>
+                        <img style="width: 100px; height: 100px; padding: 0% 11%; cursor: pointer;"  id="pg_receita_options_centrifugar_dreno_2" onclick="pg_receita_centrifugar_dreno_2()"/>                            
+                    </div>
+                    <div style="position: absolute; margin-left: 75%; width: 100%; max-width: 70px;">
+                        <img class="pg_receita_options_image" title="Voltar" style="width: 100%;"  id="pg_receita_options_centrifugar_back" onclick="pg_receita_centrifugar_back()"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- Ações durante a programação -->
+        <div id="pg_receita_buttons">
+            <ul id="pg_receita_buttons_list">
+                <li class="pg_receita_buttons_item" id="pg_receita_buttons_voltar">
+                    <div class="pg_receita_buttons_btn_container">
+                        <a class="pg_receita_buttons_btn" href="javascript:void(0);" id="pg_receita_buttons_btn_back" onclick="pg_receita_button_back()"> Voltar </a>
+                    </div>
+                </li>
+                <li class="pg_receita_buttons_item" id="pg_receita_buttons_proximo">
+                    <div class="pg_receita_buttons_btn_container">
+                        <a class="pg_receita_buttons_btn" href="javascript:void(0);" id="pg_receita_buttons_btn_next" onclick="pg_receita_button_next()"> Próximo </a>
+                    </div>
+                </li>
+                <li class="pg_receita_buttons_item" id="pg_receita_buttons_inserir">
+                    <div class="pg_receita_buttons_btn_container">
+                        <a class="pg_receita_buttons_btn" href="javascript:void(0);" id="pg_receita_buttons_btn_insert" onclick="pg_receita_button_insert()"> Inserir </a>
+                    </div>
+                </li>
+                <li class="pg_receita_buttons_item" id="pg_receita_buttons_excluir">
+                    <div class="pg_receita_buttons_btn_container">
+                        <a class="pg_receita_buttons_btn" href="javascript:void(0);" style="opacity: 1; pointer-events: all;" id="pg_receita_buttons_btn_delete" onclick="pg_receita_button_delete()"> Excluir </a>
+                    </div>
+                </li>
+                <li class="pg_receita_buttons_item" id="pg_receita_buttons_finish">
+                    <div class="pg_receita_buttons_btn_container">
+                        <a class="pg_receita_buttons_btn" href="javascript:void(0);" id="pg_receita_buttons_btn_finish" onclick="pg_receita_button_box_finish()"> Salvar </a>
+                    </div>
+                </li>
+            </ul>
+            <div id="pg_receita_finish_box_container" style="display: none;">
+                <div id="pg_receita_finish_box_title_container" style="padding-top: 3%; padding-bottom: 3%;">
+                    <h2 class="pg_receita_title pg_receita_title_2"> Insira o nome da receita </h2>
+                </div>
+                <div id="pg_receita_finish_box_input_container" style="padding-top: 3%; padding-bottom: 3%;">
+                    <input type="text" class="pg_receita_input" style="width: 95%" id="pg_receita_finish_input"/>
+                </div>
+                <div id="pg_receita_finish_box_input_container" style="padding-top: 3%; padding-bottom: 3%; display:flex; justify-content: center;">
+                    <a class="pg_receita_buttons_btn" id="pg_receita_save" href="javascript:void(0);" onclick="pg_receita_button_finish()" style="border-radius:15px;">
+                        Salvar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
