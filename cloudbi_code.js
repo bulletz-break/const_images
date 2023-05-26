@@ -4,12 +4,12 @@ let pg_receita_image_lavar_on = "https://github.com/bulletz-break/const_images/b
 let pg_receita_image_lavar_off = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/LavarOFF.png?raw=true";
 let pg_receita_image_centrifugar_on = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/CentrifugarON.png?raw=true";
 let pg_receita_image_centrifugar_off = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/CentrifugarOFF.png?raw=true";
-let pg_receita_image_dreno_1_on = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/Dreno.png?raw=true";
-let pg_receita_image_dreno_1_off = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/DrenoOFF.png?raw=true";
+let pg_receita_image_dreno_1_on = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/Dreno1.png?raw=true";
+let pg_receita_image_dreno_1_off = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/Dreno1.png?raw=true";
 let pg_receita_image_descarregar_on = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/DescaregarON.png?raw=true";
 let pg_receita_image_descarregar_off = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/DescaregarOFF.png?raw=true";
-let pg_receita_image_dreno_2_on = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/Reuso.png?raw=true";
-let pg_receita_image_dreno_2_off = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/Reuso2OFF.png?raw=true";
+let pg_receita_image_dreno_2_on = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/Dreno2ON.png?raw=true";
+let pg_receita_image_dreno_2_off = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/Dreno2.png?raw=true";
 let pg_receita_image_agua_1_on = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/Agua1.png?raw=true";
 let pg_receita_image_agua_1_off = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/Agua1OFF.png?raw=true";
 let pg_receita_image_nivel_baixo_on = "https://github.com/bulletz-break/const_images/blob/692d650bbc645c302db6a07f90b2cf4067c646d6/nBaixoON.png?raw=true";
@@ -33,6 +33,7 @@ let options_produtos    = {};   // JSON contendo os elementos da tela dos produt
 let options_centrifugar = {};   // JSON contendo os elementos da tela de centrifugação
 let options_buttons     = {};   // JSON contendo os elementos dos botões de programação da receita
 let receita_object      = [];   // Objeto final da receita (contém a receita pronta)
+let receita_images      = {};   // JSON contendo as imagens
 let receita_json        = {};   // JSON final da receita
 let receita_data        = {
     "Carregar"      : false,
@@ -59,7 +60,7 @@ self.onInit = function() {
     }, 250);
 
     receita_data["step_index"] = 1;
-    options_geral["step_index"].textContent = String("Passo: ") + String(receita_data["step_index"]);
+    options_geral["step_index"].text(String("Passo: ") + String(receita_data["step_index"]));
     receita_data["relacao_ml_s"] = true; // Mililitros
 }
 
@@ -67,7 +68,7 @@ self.onInit = function() {
 // Funções iniciais do widget
 
 function pg_receita_set_clicks() {
-    options_geral["Carregar"].on("click", () => pg_receita_carregar_maquina());
+    options_geral["Carregar"].on("click", () =>  pg_receita_carregar_maquina());
 }
 
 /**
@@ -155,8 +156,40 @@ function pg_receita_get_elements_buttons() {
  * @brief Função para colocar as imagens nos elementos do widget
  */
 function pg_receita_set_images() {
-    $("#pg_receita_top_bar_logo").attr("src", pg_receita_image_logo);
-    $("#pg_receita_step_time_icon").attr("src", pg_receita_image_time);
+    receita_images["pg_receita_image_logo"]             = $("<img>").attr("src", pg_receita_image_logo);
+    receita_images["pg_receita_step_time_icon"]         = $("<img>").attr("src", pg_receita_image_time);
+
+    receita_images["pg_receita_image_carregar_off"]     = $("<img>").attr("src", pg_receita_image_carregar_off);
+
+    receita_images["pg_receita_image_lavar_off"]        = $("<img>").attr("src", pg_receita_image_lavar_off);
+
+    receita_images["pg_receita_image_centrifugar_off"]  = $("<img>").attr("src", pg_receita_image_centrifugar_off);
+
+    receita_images["pg_receita_image_dreno_1_off"]      = $("<img>").attr("src", pg_receita_image_dreno_1_off);
+
+    receita_images["pg_receita_image_descarregar_off"]  = $("<img>").attr("src", pg_receita_image_descarregar_off);
+
+    receita_images["pg_receita_image_dreno_2_off"]      = $("<img>").attr("src", pg_receita_image_dreno_2_off);
+
+    receita_images["pg_receita_image_agua_1_off"]       = $("<img>").attr("src", pg_receita_image_agua_1_off);
+
+    receita_images["pg_receita_image_nivel_baixo_off"]  = $("<img>").attr("src", pg_receita_image_nivel_baixo_off);
+
+    receita_images["pg_receita_image_nivel_medio_off"]  = $("<img>").attr("src", pg_receita_image_nivel_medio_off);
+
+    receita_images["pg_receita_image_nivel_alto_off"]   = $("<img>").attr("src", pg_receita_image_nivel_alto_off);
+
+    receita_images["pg_receita_image_agua_2_off"]       = $("<img>").attr("src", pg_receita_image_agua_2_off);
+
+    receita_images["pg_receita_image_temperatura"]      = $("<img>").attr("src", pg_receita_image_temperatura);
+    receita_images["pg_receita_image_produtos"]         = $("<img>").attr("src", pg_receita_image_produtos);
+    receita_images["pg_receita_image_back"]             = $("<img>").attr("src", pg_receita_image_back);
+    receita_images["pg_receita_image_dreno_1_off"]      = $("<img>").attr("src", pg_receita_image_dreno_1_off);
+
+    receita_images["pg_receita_image_dreno_2_off"]      = $("<img>").attr("src", pg_receita_image_dreno_2_off);
+
+    receita_images["pg_receita_image_back"]             = $("<img>").attr("src", pg_receita_image_back);
+    
 
     options_geral["Carregar"].attr("src", pg_receita_image_carregar_off);
     options_geral["Lavar"].attr("src", pg_receita_image_lavar_off);
@@ -670,7 +703,7 @@ function pg_receita_insert_data() {
 
     receita_data["step_index"] = pg_receita_temp_step_index;
 
-    options_geral["step_index"].textContent = "Passo: " + Number(receita_data["step_index"]);
+    options_geral["step_index"].text("Passo: " + Number(receita_data["step_index"]));
 
     console.log(receita_data);
 
@@ -746,7 +779,7 @@ function pg_receita_insert_data() {
 function pg_receita_button_next() {
     pg_receita_append_json_final();
     receita_data["step_index"]++;
-    options_geral["step_index"].textContent = "Passo: " + Number(receita_data["step_index"]);
+    options_geral["step_index"].text("Passo: " + Number(receita_data["step_index"]));
     pg_receita_reset_elements();
 
     console.log(receita_data["step_index"]);
