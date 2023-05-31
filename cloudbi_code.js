@@ -1,4 +1,4 @@
-let pg_receita_image = new WidgetImages();
+let pg_receita_image;
 
 let options_geral       = {};   // JSON contendo os elementos gerais de lavagem
 let options_lavar       = {};   // JSON contendo os elementos da tela de Lavar
@@ -19,6 +19,8 @@ let receita_data        = {
 
 // Quando o widget for carregado
 self.onInit = function() {
+    pg_receita_image = new WidgetImages();
+    
     pg_receita_get_elements_geral();        // Obtendo elementos gerais
     pg_receita_get_elements_lavar();        // Obtendo elementos de Lavar
     pg_receita_get_elements_aquecer();      // Obtendo elementos de aquecimento da água
