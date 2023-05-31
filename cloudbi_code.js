@@ -129,31 +129,31 @@ function pg_receita_get_elements_buttons() {
  * @brief Função para colocar as imagens nos elementos do widget
  */
 function pg_receita_set_images() {
-    $("#pg_receita_top_bar_logo").attr("src", pg_receita_image_logo);
-    $("#pg_receita_step_time_icon").attr("src", pg_receita_image_time);
+    $("#pg_receita_top_bar_logo").attr("src", pg_receita_image.logo);
+    $("#pg_receita_step_time_icon").attr("src", pg_receita_image.time);
 
-    options_geral["Carregar"].attr("src", pg_receita_image_carregar_off);
-    options_geral["Lavar"].attr("src", pg_receita_image_lavar_off);
-    options_geral["Centrifugar"].attr("src", pg_receita_image_centrifugar_off);
-    options_geral["Dreno"].attr("src", pg_receita_image_dreno_1_off);
-    options_geral["Descarregar"].attr("src", pg_receita_image_descarregar_off);
-    options_geral["Reuso"].attr("src", pg_receita_image_dreno_2_off);
+    options_geral["Carregar"].attr("src", pg_receita_image.carregar_off);
+    options_geral["Lavar"].attr("src", pg_receita_image.lavar_off);
+    options_geral["Centrifugar"].attr("src", pg_receita_image.centrifugar_off);
+    options_geral["Dreno"].attr("src", pg_receita_image.dreno_1_off);
+    options_geral["Descarregar"].attr("src", pg_receita_image.descarregar_off);
+    options_geral["Reuso"].attr("src", pg_receita_image.dreno_2_off);
 
-    options_lavar["agua_1"].attr("src", pg_receita_image_agua_1_off);
-    options_lavar["baixo"].attr("src", pg_receita_image_nivel_baixo_off);
-    options_lavar["medio"].attr("src", pg_receita_image_nivel_medio_off);
-    options_lavar["alto"].attr("src", pg_receita_image_nivel_alto_off);
-    options_lavar["agua_2"].attr("src", pg_receita_image_agua_2_off);
-    options_lavar["aquecer"].attr("src", pg_receita_image_temperatura);
-    options_lavar["produtos"].attr("src", pg_receita_image_produtos);
-    options_lavar["back"].attr("src", pg_receita_image_back);
+    options_lavar["agua_1"].attr("src", pg_receita_image.agua_1_off);
+    options_lavar["baixo"].attr("src", pg_receita_image.nivel_baixo_off);
+    options_lavar["medio"].attr("src", pg_receita_image.nivel_medio_off);
+    options_lavar["alto"].attr("src", pg_receita_image.nivel_alto_off);
+    options_lavar["agua_2"].attr("src", pg_receita_image.agua_2_off);
+    options_lavar["aquecer"].attr("src", pg_receita_image.temperatura);
+    options_lavar["produtos"].attr("src", pg_receita_image.produtos);
+    options_lavar["back"].attr("src", pg_receita_image.back);
 
-    options_aquecer["back"].attr("src", pg_receita_image_back);
-    options_produtos["back"].attr("src", pg_receita_image_back);
+    options_aquecer["back"].attr("src", pg_receita_image.back);
+    options_produtos["back"].attr("src", pg_receita_image.back);
 
-    options_centrifugar["dreno_1"].attr("src", pg_receita_image_dreno_1_off);
-    options_centrifugar["dreno_2"].attr("src", pg_receita_image_dreno_2_off);
-    options_centrifugar["back"].attr("src", pg_receita_image_back);
+    options_centrifugar["dreno_1"].attr("src", pg_receita_image.dreno_1_off);
+    options_centrifugar["dreno_2"].attr("src", pg_receita_image.dreno_2_off);
+    options_centrifugar["back"].attr("src", pg_receita_image.back);
 }
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -319,10 +319,10 @@ function pg_receita_switch_style(pg_array, pg_index, pg_name_image, switch_style
 function pg_receita_carregar_maquina() { 
     console.log("carregar maquina");
     if(receita_data["Carregar"]) { // Desativar
-        pg_receita_switch_style(options_geral, "Carregar", pg_receita_image_carregar_off, false);
+        pg_receita_switch_style(options_geral, "Carregar", pg_receita_image.carregar_off, false);
         receita_data["Carregar"] = false;
     } else { // Ativar
-        pg_receita_switch_style(options_geral, "Carregar", pg_receita_image_carregar_on, true);
+        pg_receita_switch_style(options_geral, "Carregar", pg_receita_image.carregar_on, true);
         receita_data["Carregar"] = true
     }
 }
@@ -330,10 +330,10 @@ function pg_receita_carregar_maquina() {
 // - Lavar
 function pg_receita_lavar() {
     if(receita_data["Lavar"]) { // Desativar
-        pg_receita_switch_style(options_geral, "Lavar", pg_receita_image_lavar_off, false);
+        pg_receita_switch_style(options_geral, "Lavar", pg_receita_image.lavar_off, false);
         receita_data["Lavar"] = false;
     } else { // Ativar
-        pg_receita_switch_style(options_geral, "Lavar", pg_receita_image_lavar_on, true);
+        pg_receita_switch_style(options_geral, "Lavar", pg_receita_image.lavar_on, true);
         receita_data["Lavar"] = true;
         pg_receita_screen_lavar();
     }
@@ -343,12 +343,12 @@ function pg_receita_lavar() {
 // - Centrifugar
 function pg_receita_centrifugar() {
     if(receita_data["Centrifugar"]) { // Desativar
-        pg_receita_switch_style(options_geral, "Centrifugar", pg_receita_image_centrifugar_off, false);
+        pg_receita_switch_style(options_geral, "Centrifugar", pg_receita_image.centrifugar_off, false);
         receita_data["Centrifugar"] = false;
     }
     else { // Ativar
         pg_receita_screen_centrifugar();
-        pg_receita_switch_style(options_geral, "Centrifugar", pg_receita_image_centrifugar_on, true);
+        pg_receita_switch_style(options_geral, "Centrifugar", pg_receita_image.centrifugar_on, true);
         receita_data["Centrifugar"] = true;
     }
 
@@ -358,10 +358,10 @@ function pg_receita_centrifugar() {
 function pg_receita_dreno() {
     console.log(receita_data["Dreno"])
     if(receita_data["Dreno"]) { // Desativar
-        pg_receita_switch_style(options_geral, "Dreno", pg_receita_image_dreno_1_off, false);
+        pg_receita_switch_style(options_geral, "Dreno", pg_receita_image.dreno_1_off, false);
         receita_data["Dreno"] = false;
     } else { // Ativar
-        pg_receita_switch_style(options_geral, "Dreno", pg_receita_image_dreno_1_on, true);
+        pg_receita_switch_style(options_geral, "Dreno", pg_receita_image.dreno_1_on, true);
         receita_data["Dreno"] = true;
     }
 }
@@ -369,10 +369,10 @@ function pg_receita_dreno() {
 // - Descarregar
 function pg_receita_descarregar_maquina() {
     if(receita_data["Descarregar"]) { // Desativar
-        pg_receita_switch_style(options_geral, "Descarregar", pg_receita_image_descarregar_off, false);
+        pg_receita_switch_style(options_geral, "Descarregar", pg_receita_image.descarregar_off, false);
         receita_data["Descarregar"] = false;
     } else { // Ativar
-        pg_receita_switch_style(options_geral, "Descarregar", pg_receita_image_descarregar_on, true);
+        pg_receita_switch_style(options_geral, "Descarregar", pg_receita_image.descarregar_on, true);
         receita_data["Descarregar"] = true;
     }
 }
@@ -380,11 +380,11 @@ function pg_receita_descarregar_maquina() {
 // - Reuso (dreno 2)
 function pg_receita_reuso() {
     if(receita_data["Reuso"]) { // Desativar
-        pg_receita_switch_style(options_geral, "Reuso", pg_receita_image_dreno_2_off, false);
+        pg_receita_switch_style(options_geral, "Reuso", pg_receita_image.dreno_2_off, false);
         receita_data["Reuso"] = false;
     }
     else { // Ativar
-        pg_receita_switch_style(options_geral, "Reuso", pg_receita_image_dreno_2_on, true);
+        pg_receita_switch_style(options_geral, "Reuso", pg_receita_image.dreno_2_on, true);
         receita_data["Reuso"] = true;
     }
 }
@@ -406,11 +406,11 @@ function pg_receita_lavar_back() {
 function pg_receita_lavar_agua_1() {
     if(receita_data["AguaFria"]) { // Desativar
         pg_receita_enable(options_lavar["agua_2"]);
-        pg_receita_set_src(options_lavar["agua_1"], pg_receita_image_agua_1_off);
+        pg_receita_set_src(options_lavar["agua_1"], pg_receita_image.agua_1_off);
         receita_data["AguaFria"] = false;
     } else { // Ativar
         pg_receita_disable(options_lavar["agua_2"]);
-        pg_receita_set_src(options_lavar["agua_1"], pg_receita_image_agua_1_on);
+        pg_receita_set_src(options_lavar["agua_1"], pg_receita_image.agua_1_on);
         receita_data["AguaFria"] = true;
     }
 }
@@ -418,27 +418,27 @@ function pg_receita_lavar_agua_1() {
 // - Nível de água
 // -- Baixo
 function pg_receita_lavar_nivel_baixo() {
-    pg_receita_set_src(options_lavar["baixo"], pg_receita_image_nivel_baixo_on);
-    pg_receita_set_src(options_lavar["medio"], pg_receita_image_nivel_medio_off);
-    pg_receita_set_src(options_lavar["alto"], pg_receita_image_nivel_alto_off);
+    pg_receita_set_src(options_lavar["baixo"], pg_receita_image.nivel_baixo_on);
+    pg_receita_set_src(options_lavar["medio"], pg_receita_image.nivel_medio_off);
+    pg_receita_set_src(options_lavar["alto"], pg_receita_image.nivel_alto_off);
     
     receita_data["NivelAgua"] = 1;
 }
 
 // -- Médio
 function pg_receita_lavar_nivel_medio() {
-    pg_receita_set_src(options_lavar["baixo"], pg_receita_image_nivel_baixo_off);
-    pg_receita_set_src(options_lavar["medio"], pg_receita_image_nivel_medio_on);
-    pg_receita_set_src(options_lavar["alto"], pg_receita_image_nivel_alto_off);
+    pg_receita_set_src(options_lavar["baixo"], pg_receita_image.nivel_baixo_off);
+    pg_receita_set_src(options_lavar["medio"], pg_receita_image.nivel_medio_on);
+    pg_receita_set_src(options_lavar["alto"], pg_receita_image.nivel_alto_off);
 
     receita_data["NivelAgua"] = 2;
 }
 
 // -- Alto
 function pg_receita_lavar_nivel_alto() {
-    pg_receita_set_src(options_lavar["baixo"], pg_receita_image_nivel_baixo_off);
-    pg_receita_set_src(options_lavar["medio"], pg_receita_image_nivel_medio_off);
-    pg_receita_set_src(options_lavar["alto"], pg_receita_image_nivel_alto_on);
+    pg_receita_set_src(options_lavar["baixo"], pg_receita_image.nivel_baixo_off);
+    pg_receita_set_src(options_lavar["medio"], pg_receita_image.nivel_medio_off);
+    pg_receita_set_src(options_lavar["alto"], pg_receita_image.nivel_alto_on);
 
     receita_data["NivelAgua"] = 3;
 }
@@ -447,11 +447,11 @@ function pg_receita_lavar_nivel_alto() {
 function pg_receita_lavar_agua_2() {
     if(receita_data["AguaQuente"]) { // Desativar
         pg_receita_enable(options_lavar["agua_1"]);
-        pg_receita_set_src(options_lavar["agua_2"], pg_receita_image_agua_2_off);
+        pg_receita_set_src(options_lavar["agua_2"], pg_receita_image.agua_2_off);
         receita_data["AguaQuente"] = false;
     } else { // Ativar
         pg_receita_disable(options_lavar["agua_1"]);
-        pg_receita_set_src(options_lavar["agua_2"], pg_receita_image_agua_2_on);
+        pg_receita_set_src(options_lavar["agua_2"], pg_receita_image.agua_2_on);
         receita_data["AguaQuente"] = true;
     }
 }
@@ -549,16 +549,16 @@ function pg_receita_centrifugar_dreno_1() {
     if(receita_data["Dreno"]) return;
     receita_data["Dreno"] = true;
     receita_data["Reuso"] = false;
-    options_centrifugar["dreno_1"].attr("src", pg_receita_image_dreno_1_on);
-    options_centrifugar["dreno_2"].attr("src", pg_receita_image_dreno_2_off);
+    options_centrifugar["dreno_1"].attr("src", pg_receita_image.dreno_1_on);
+    options_centrifugar["dreno_2"].attr("src", pg_receita_image.dreno_2_off);
 }
 
 function pg_receita_centrifugar_dreno_2() {
     if(receita_data["Reuso"]) return;
     receita_data["Dreno"] = false;
     receita_data["Reuso"] = true;
-    options_centrifugar["dreno_1"].attr("src", pg_receita_image_dreno_1_off);
-    options_centrifugar["dreno_2"].attr("src", pg_receita_image_dreno_2_on);
+    options_centrifugar["dreno_1"].attr("src", pg_receita_image.dreno_1_off);
+    options_centrifugar["dreno_2"].attr("src", pg_receita_image.dreno_2_on);
 }
 
 function pg_receita_centrifugar_back() {
@@ -881,22 +881,22 @@ function pg_receita_reset_elements() {
     console.log(receita_data);
 
     // Resetando Geral
-    pg_receita_set_src(options_geral["Carregar"], pg_receita_image_carregar_off);
-    pg_receita_set_src(options_geral["Lavar"], pg_receita_image_lavar_off);
-    pg_receita_set_src(options_geral["Centrifugar"], pg_receita_image_centrifugar_off);
-    pg_receita_set_src(options_geral["Dreno"], pg_receita_image_dreno_1_off);
-    pg_receita_set_src(options_geral["Descarregar"], pg_receita_image_descarregar_off);
-    pg_receita_set_src(options_geral["Reuso"], pg_receita_image_dreno_2_off);
+    pg_receita_set_src(options_geral["Carregar"], pg_receita_image.carregar_off);
+    pg_receita_set_src(options_geral["Lavar"], pg_receita_image.lavar_off);
+    pg_receita_set_src(options_geral["Centrifugar"], pg_receita_image.centrifugar_off);
+    pg_receita_set_src(options_geral["Dreno"], pg_receita_image.dreno_1_off);
+    pg_receita_set_src(options_geral["Descarregar"], pg_receita_image.descarregar_off);
+    pg_receita_set_src(options_geral["Reuso"], pg_receita_image.dreno_2_off);
     for(let index in options_geral) { if(index != "StepName") { pg_receita_enable(options_geral[index]); } }
     options_geral["StepName"].value = "";
 
     // Resetando Lavar
     options_lavar["tempo"].value = 0;
-    pg_receita_set_src(options_lavar["agua_1"], pg_receita_image_agua_1_off);
-    pg_receita_set_src(options_lavar["baixo"], pg_receita_image_nivel_baixo_off);
-    pg_receita_set_src(options_lavar["medio"], pg_receita_image_nivel_medio_off);
-    pg_receita_set_src(options_lavar["alto"], pg_receita_image_nivel_alto_off);
-    pg_receita_set_src(options_lavar["agua_2"], pg_receita_image_agua_2_off);
+    pg_receita_set_src(options_lavar["agua_1"], pg_receita_image.agua_1_off);
+    pg_receita_set_src(options_lavar["baixo"], pg_receita_image.nivel_baixo_off);
+    pg_receita_set_src(options_lavar["medio"], pg_receita_image.nivel_medio_off);
+    pg_receita_set_src(options_lavar["alto"], pg_receita_image.nivel_alto_off);
+    pg_receita_set_src(options_lavar["agua_2"], pg_receita_image.agua_2_off);
     for(let index in options_lavar) { if(index != "back") { pg_receita_enable(options_lavar[index]); } }
 
     // - Resetando Aquecer
@@ -918,7 +918,7 @@ function pg_receita_reset_elements() {
 
     // Resetando Centrifugar
     options_centrifugar["tempo"].value = 0;
-    pg_receita_set_src(options_centrifugar["dreno_1"], pg_receita_image_dreno_1_off);
-    pg_receita_set_src(options_centrifugar["dreno_2"], pg_receita_image_dreno_2_off);
+    pg_receita_set_src(options_centrifugar["dreno_1"], pg_receita_image.dreno_1_off);
+    pg_receita_set_src(options_centrifugar["dreno_2"], pg_receita_image.dreno_2_off);
 
 }
