@@ -16,7 +16,7 @@
             "pg_receita_image_lavar_on": {
                 "title": "pg_receita_image_lavar_on",
                 "type": "string",
-                "default": ""
+                "default": "carregar"
             },
             "pg_receita_image_lavar_off": {
                 "title": "pg_receita_image_lavar_off",
