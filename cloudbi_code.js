@@ -44,6 +44,40 @@ self.onInit = function() {
 
 function pg_receita_set_clicks() {
     options_geral["Carregar"].on("click", () =>  pg_receita_carregar_maquina());
+    options_geral["Lavar"].on("click", () => pg_receita_lavar());
+    options_geral["Centrifugar"].on("click", () => pg_receita_centrifugar());
+    options_geral["Dreno"].on("click", () => pg_receita_dreno());
+    options_geral["Descarregar"].on("click", () => pg_receita_descarregar_maquina());
+    options_geral["Reuso"].on("click", () => pg_receita_reuso());
+
+    options_lavar["agua_1"].on("click", () => pg_receita_lavar_agua_1());
+    options_lavar["baixo"].on("click", () => pg_receita_lavar_nivel_baixo());
+    options_lavar["medio"].on("click", () => pg_receita_lavar_nivel_medio());
+    options_lavar["alto"].on("click", () => pg_receita_lavar_nivel_alto());
+    options_lavar["agua_2"].on("click", () => pg_receita_lavar_agua_2());
+    options_lavar["aquecer"].on("click", () => pg_receita_screen_lavar_aquecer());
+    options_lavar["produtos"].on("click", () => pg_receita_screen_produtos());
+    options_lavar["back"].on("click", () => pg_receita_lavar_back());
+
+    options_aquecer["aquecimento"].on("click", () => pg_receita_lavar_aquecer_aquecimento());
+    options_aquecer["patamar"].on("click", () => pg_receita_lavar_aquecer_patamar());
+    options_aquecer["manter"].on("click", () => pg_receita_lavar_aquecer_manter());
+    options_aquecer["back"].on("click", () => pg_receita_lavar_aquecer_back());
+
+    options_produtos["produto_unidade"].on("click", () => pg_receita_lavar_produtos_medida());
+    options_produtos["back"].on("click", () => pg_receita_lavar_produtos_back());
+
+    options_centrifugar["dreno_1"].on("click", () => pg_receita_centrifugar_dreno_1());
+    options_centrifugar["dreno_2"].on("click", () => pg_receita_centrifugar_dreno_2());
+    options_centrifugar["back"].on("click", () => pg_receita_centrifugar_back());
+
+    options_buttons["back"].on("click", () => pg_receita_button_back());
+    options_buttons["next"].on("click", () => pg_receita_button_next());
+    options_buttons["insert"].on("click", () => pg_receita_button_insert());
+    options_buttons["delete"].on("click", () => pg_receita_button_delete());
+    options_buttons["finish"].on("click", () => pg_receita_button_box_finish());
+
+    $("#pg_receita_save").on("click", () => pg_receita_button_finish());
 }
 
 /**
@@ -51,9 +85,6 @@ function pg_receita_set_clicks() {
  */
 function pg_receita_get_elements_geral() {
     options_geral["Carregar"]       = $("#pg_receita_options_carregar");
-
-    console.log(options_geral["Carregar"]);
-
     options_geral["Lavar"]          = $("#pg_receita_options_lavar");
     options_geral["Centrifugar"]    = $("#pg_receita_options_centrifugar");
     options_geral["Dreno"]          = $("#pg_receita_options_dreno");
@@ -162,23 +193,23 @@ function pg_receita_set_images() {
 // Função para editar uma receita existente
 // Volta o título para o formato original
 function pg_receita_drop_js_reset() {
-    $("#pg_receita_drop_js_title").textContent = "Arraste uma receita já existente para editá-la";
-    $("#pg_receita_drop_js_title").style = "color: rgb(7, 90, 164);";
+    $("#pg_receita_drop_js_title").text("Arraste uma receita já existente para editá-la");
+    $("#pg_receita_drop_js_title").css("color", "rgb(7, 90, 164);");
 }
 
 
 // Erro ao carregar receita
 function pg_receita_drop_json_fail(pg_receita_error_msg) {
-    $("#pg_receita_drop_js_title").textContent = String("Erro: " + pg_receita_error_msg);
-    $("#pg_receita_drop_js_title").style = "color: red";
+    $("#pg_receita_drop_js_title").text(String("Erro: " + pg_receita_error_msg));
+    $("#pg_receita_drop_js_title").css("color",  "red");
 
     setTimeout(() => { pg_receita_drop_js_reset(); }, 3000);
 }
 
 // Receita carregada com sucesso
 function pg_receita_drop_json_success() {
-    $("#pg_receita_drop_js_title").textContent = "Receita carregada com sucesso";
-    $("#pg_receita_drop_js_title").style = "color: limegreen";
+    $("#pg_receita_drop_js_title").text("Receita carregada com sucesso");
+    $("#pg_receita_drop_js_title").css("color",  "limegreen");
 
     setTimeout(() => { pg_receita_drop_js_reset(); }, 3000);
 }
@@ -196,9 +227,8 @@ function pg_receita_drop_json(pg_receita_event) {
         return pg_receita_drop_json_fail("Arquivo incompátivel");
     }
 
-    console.log(pg_receita_event.dataTransfer.files);
 
-    $("#pg_receita_drop_js_title").textContent = "Carregando receita...";
+    $("#pg_receita_drop_js_title").text("Carregando receita...");
 
     pg_receita_reader.addEventListener("load", (e) => {
         if(!JSON.parse(e.target.result)["programName"]) { return pg_receita_drop_json_fail("Arquivo incompatível"); }
@@ -211,7 +241,6 @@ function pg_receita_drop_json(pg_receita_event) {
     });
     pg_receita_reader.readAsText(pg_receita_file);
 
-    console.log(pg_receita_file_data);
 }
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -221,13 +250,13 @@ function pg_receita_drop_json(pg_receita_event) {
  */
 function pg_receita_screen_lavar() {
     // Mostrando tela para configuração de Lavar
-    $("#pg_receita_buttons_list").style = "display: none";         // Escondendo os botões de programação
-    $("#pg_receita_options_list_geral").style = "display: none";   // Escondendo as opções gerais de lavagem
-    $("#pg_receita_options_list_lavar").style = "display: flex";   // Mostrando as opções de Lavar
-    $("#pg_receita_step_name").style = "display: none";            // Escondendo o input do nome do passo
-    $("#pg_receita_step_time").style = "display: flex";            // Mostrando o input para tempo do passo
+    $("#pg_receita_buttons_list").css("display", "none");         // Escondendo os botões de programação
+    $("#pg_receita_options_list_geral").css("display", "none");   // Escondendo as opções gerais de lavagem
+    $("#pg_receita_options_list_lavar").css("display", "flex");   // Mostrando as opções de Lavar
+    $("#pg_receita_step_name").css("display", "none");            // Escondendo o input do nome do passo
+    $("#pg_receita_step_time").css("display", "flex");            // Mostrando o input para tempo do passo
 
-    $("#pg_receita_top_bar_title").textContent = "Configurações da Lavagem";
+    $("#pg_receita_top_bar_title").text("Configurações da Lavagem");
 
     pg_receita_disable(options_lavar["back"]);
     options_lavar["interval"] = setInterval(() => {
@@ -239,10 +268,10 @@ function pg_receita_screen_lavar() {
  * @brief Função que prepara os elementos para a tela de aquecimento da água
  */
 function pg_receita_screen_lavar_aquecer() {
-    $("#pg_receita_top_bar_title").textContent = "Configurações do Aquecimento";
-    $("#pg_receita_step_time").style = "display: none";
-    $("#pg_receita_options_list_lavar").style = "display: none";
-    $("#pg_receita_options_list_aquecer").style = "display: flex";
+    $("#pg_receita_top_bar_title").text("Configurações do Aquecimento");
+    $("#pg_receita_step_time").css("display", "none");
+    $("#pg_receita_options_list_lavar").css("display", "none");
+    $("#pg_receita_options_list_aquecer").css("display", "flex");
     options_aquecer["interval"] = setInterval(() => {
         pg_receita_button_manage_back_aquecer();
     }, 300);
@@ -253,22 +282,22 @@ function pg_receita_screen_lavar_aquecer() {
  * @brief Função que prepara os elementos para a tela dos produtos
  */
 function pg_receita_screen_produtos() {
-    $("#pg_receita_top_bar_title").textContent = "Adicionar Produtos";
-    $("#pg_receita_step_time").style = "display: none";
-    $("#pg_receita_options_list_lavar").style = "display: none";
-    $("#pg_receita_options_list_produtos").style = "display: flex";
+    $("#pg_receita_top_bar_title").text("Adicionar Produtos");
+    $("#pg_receita_step_time").css ("display", "none");
+    $("#pg_receita_options_list_lavar").css ("display", "none");
+    $("#pg_receita_options_list_produtos").css ("display", "flex");
 }
 
 /**
  * @brief Função que prepara os elementos para a tela de centrifugação
  */
 function pg_receita_screen_centrifugar() {
-    $("#pg_receita_top_bar_title").textContent = "Configuração da Centrifugação";
+    $("#pg_receita_top_bar_title").text("Configuração da Centrifugação");
     pg_receita_disable(options_centrifugar["back"]);
-    $("#pg_receita_options_list_geral").style = "display: none";
-    $("#pg_receita_buttons_list").style = "display: none";
-    $("#pg_receita_options_list_centrifugar").style = "display: flex";
-    $("#pg_receita_step_name").style = "display: none";
+    $("#pg_receita_options_list_geral").css("display",  "none");
+    $("#pg_receita_buttons_list").css("display",  "none");
+    $("#pg_receita_options_list_centrifugar").css("display",  "flex");
+    $("#pg_receita_step_name").css("display",  "none");
     options_centrifugar["interval"] = setInterval(() => {
         pg_receita_button_manage_back_centrifugar();
     }, 300);
@@ -281,14 +310,14 @@ function pg_receita_screen_centrifugar() {
  * 
  * @param pg_receita_element elemento que será desativado
  */
-function pg_receita_disable(pg_receita_element) { pg_receita_element.style = "opacity: 0.7; pointer-events: none"; }
+function pg_receita_disable(pg_receita_element) { pg_receita_element.css({"opacity" : "0.7", "pointer-events" : "none"}); }
 
 /**
  * @brief Função para ativar os eventos de click de um elemento
  * 
  * @param pg_receita_element elemento que será ativado
  */
-function pg_receita_enable(pg_receita_element) { pg_receita_element.style = "opacity: 1; pointer-events: all"; }
+function pg_receita_enable(pg_receita_element) { pg_receita_element.css({"opacity" : "1", "pointer-events" : "all"}); }
 
 /**
  * @brief Função para setar o src de uma imagem
@@ -319,7 +348,6 @@ function pg_receita_switch_style(pg_array, pg_index, pg_name_image, switch_style
 // Funções gerais (lavar, centrifugar, carregar, etc.)
 // - Carregar
 function pg_receita_carregar_maquina() { 
-    console.log("carregar maquina");
     if(receita_data["Carregar"]) { // Desativar
         pg_receita_switch_style(options_geral, "Carregar", pg_receita_image.carregar_off, false);
         receita_data["Carregar"] = false;
@@ -358,7 +386,6 @@ function pg_receita_centrifugar() {
 
 // - Dreno
 function pg_receita_dreno() {
-    console.log(receita_data["Dreno"])
     if(receita_data["Dreno"]) { // Desativar
         pg_receita_switch_style(options_geral, "Dreno", pg_receita_image.dreno_1_off, false);
         receita_data["Dreno"] = false;
@@ -395,12 +422,12 @@ function pg_receita_reuso() {
 // Funções Lavar (água 1, água 2, temperatura, etc.)
 // - Voltar
 function pg_receita_lavar_back() {
-    $("#pg_receita_top_bar_title").textContent = "Editar Receita da Lavadora";
-    $("#pg_receita_buttons_list").style = "display: flex";
-    $("#pg_receita_options_list_lavar").style = "display: none";
-    $("#pg_receita_options_list_geral").style = "display: flex";
-    $("#pg_receita_step_time").style = "display: none";
-    $("#pg_receita_step_name").style = "display: flex";
+    $("#pg_receita_top_bar_title").text("Editar Receita da Lavadora");
+    $("#pg_receita_buttons_list").css("display", "flex");
+    $("#pg_receita_options_list_lavar").css("display", "none");
+    $("#pg_receita_options_list_geral").css("display", "flex");
+    $("#pg_receita_step_time").css("display", "none");
+    $("#pg_receita_step_name").css("display", "flex");
     clearInterval(options_lavar["interval"]);
 }
 
@@ -461,23 +488,23 @@ function pg_receita_lavar_agua_2() {
 // - Aquecer
 // -- Voltar
 function pg_receita_lavar_aquecer_back() {
-    $("#pg_receita_top_bar_title").textContent = "Configurações da Lavagem";
-    $("#pg_receita_step_time").style = "display: flex";
-    $("#pg_receita_options_list_aquecer").style = "display: none";
-    $("#pg_receita_options_list_lavar").style = "display: flex";
+    $("#pg_receita_top_bar_title").text("Configurações da Lavagem");
+    $("#pg_receita_step_time").css("display", "flex");
+    $("#pg_receita_options_list_aquecer").css("display", "none");
+    $("#pg_receita_options_list_lavar").css("display", "flex");
     clearInterval(options_aquecer["interval"]);
 }
 
 // -- Ligar / desligar
 function pg_receita_lavar_aquecer_aquecimento() {
     if(receita_data["AquecerAgua"]) { // Desativar
-        options_aquecer["aquecimento"].value = "Desligado";
-        options_aquecer["aquecimento"].style = "background-color: rgb(98, 125, 180);";
+        options_aquecer["aquecimento"].val("Desligado");
+        options_aquecer["aquecimento"].css("background-color", "rgb(98, 125, 180)");
 
         receita_data["AquecerAgua"] = false;
     } else {
-        options_aquecer["aquecimento"].value = "Ligado";
-        options_aquecer["aquecimento"].style = "background-color: rgb(0, 129, 255);";
+        options_aquecer["aquecimento"].val("Ligado");
+        options_aquecer["aquecimento"].css("background-color", "rgb(0, 129, 255)");
         
         receita_data["AquecerAgua"] = true;
     }
@@ -486,13 +513,13 @@ function pg_receita_lavar_aquecer_aquecimento() {
 // -- Aguardar Patamar
 function pg_receita_lavar_aquecer_patamar() {
     if(receita_data["aguardarPatamar"]) { // Desativar
-        options_aquecer["patamar"].value = "Não";
-        options_aquecer["patamar"].style = "background-color: rgb(98, 125, 180);";
+        options_aquecer["patamar"].val("Não");
+        options_aquecer["patamar"].css("background-color", "rgb(98, 125, 180)");
 
         receita_data["aguardarPatamar"] = false;
     } else {
-        options_aquecer["patamar"].value = "Sim";
-        options_aquecer["patamar"].style = "background-color: rgb(0, 129, 255);";
+        options_aquecer["patamar"].val("Sim");
+        options_aquecer["patamar"].css("background-color", "rgb(0, 129, 255)");
         receita_data["aguardarPatamar"] = true;
     }
 }
@@ -500,47 +527,35 @@ function pg_receita_lavar_aquecer_patamar() {
 // -- Manter Temperatura
 function pg_receita_lavar_aquecer_manter() {
     if(receita_data["manterAquecido"]) { // Desativar
-        options_aquecer["manter"].value = "Não";
-        options_aquecer["manter"].style = "background-color: rgb(98, 125, 180);";
+        options_aquecer["manter"].val("Não");
+        options_aquecer["manter"].css("background-color", "rgb(98, 125, 180)");
 
         receita_data["manterAquecido"] = false;
     } else {
-        options_aquecer["manter"].value = "Sim";
-        options_aquecer["manter"].style = "background-color: rgb(0, 129, 255);";
+        options_aquecer["manter"].val("Sim");
+        options_aquecer["manter"].css("background-color", "rgb(0, 129, 255)");
         receita_data["manterAquecido"] = true;
     }
 }
 
 // - Produtos
 function pg_receita_lavar_produtos_back() {
-    $("#pg_receita_top_bar_title").textContent = "Configurações da Lavagem";
-    $("#pg_receita_step_time").style = "display: flex";
-    $("#pg_receita_options_list_produtos").style = "display: none";
-    $("#pg_receita_options_list_lavar").style = "display: flex";
-}
-
-// Produtos 1 - 8
-function pg_receita_lavar_produtos() {
-    receita_data["Soap1"] = Number(options_produtos["produto_1"].value);
-    receita_data["Soap2"] = Number(options_produtos["produto_2"].value);
-    receita_data["Soap3"] = Number(options_produtos["produto_3"].value);
-    receita_data["Soap4"] = Number(options_produtos["produto_4"].value);
-    receita_data["Soap5"] = Number(options_produtos["produto_5"].value);
-    receita_data["Soap6"] = Number(options_produtos["produto_6"].value);
-    receita_data["Soap7"] = Number(options_produtos["produto_7"].value);
-    receita_data["Soap8"] = Number(options_produtos["produto_8"].value);
+    $("#pg_receita_top_bar_title").val("Configurações da Lavagem");
+    $("#pg_receita_step_time").css("display", "flex");
+    $("#pg_receita_options_list_produtos").css("display", "none");
+    $("#pg_receita_options_list_lavar").css("display", "flex");
 }
 
 // - Medida
 function pg_receita_lavar_produtos_medida() {
     if(receita_data["relacao_ml_s"]) { // Trocar para segundos
         receita_data["relacao_ml_s"] = false;
-        options_produtos["produto_unidade"].style = "background-color: rgb(7, 90, 164); width: 100%";
-        options_produtos["produto_unidade"].value = "Segundos";
+        options_produtos["produto_unidade"].css({"background-color" : "rgb(7, 90, 164)", "width" : "100%"});
+        options_produtos["produto_unidade"].val("Segundos");
     } else {
         receita_data["relacao_ml_s"] = true;
-        options_produtos["produto_unidade"].style = "background-color: rgb(98, 125, 180); width: 100%";
-        options_produtos["produto_unidade"].value = "Mililitros";
+        options_produtos["produto_unidade"].css({"background-color" : "rgb(98, 125, 180)", "width" : "100%"});
+        options_produtos["produto_unidade"].val("Mililitros");
     }
 }
 
@@ -564,12 +579,12 @@ function pg_receita_centrifugar_dreno_2() {
 }
 
 function pg_receita_centrifugar_back() {
-    $("#pg_receita_top_bar_title").textContent = "Editar Receita da Lavadora";
-    $("#pg_receita_buttons_list").style = "display: flex";
-    $("#pg_receita_options_list_centrifugar").style = "display: none";
-    $("#pg_receita_options_list_geral").style = "display: flex";
-    $("#pg_receita_step_time").style = "display: none";
-    $("#pg_receita_step_name").style = "display: flex";
+    $("#pg_receita_top_bar_title").text("Editar Receita da Lavadora");
+    $("#pg_receita_buttons_list").css("display", "flex");
+    $("#pg_receita_options_list_centrifugar").css("display", "none");
+    $("#pg_receita_options_list_geral").css("display", "flex");
+    $("#pg_receita_step_time").css("display", "none");
+    $("#pg_receita_step_name").css("display", "flex");
     clearInterval(options_centrifugar["interval"]);
 }
 
@@ -582,21 +597,21 @@ function pg_receita_centrifugar_back() {
 function pg_receita_button_manage_back_lavar() {
     if(!receita_data["AguaFria"] && !receita_data["AguaQuente"]) { return pg_receita_disable(options_lavar["back"]); }
     if(!receita_data["NivelAgua"] && !receita_data["NivelAgua"] && !receita_data["NivelAgua"]) { return pg_receita_disable(options_lavar["back"]); }
-    if(Number(options_lavar["tempo"].value) < 1) { return pg_receita_disable(options_lavar["back"]); }
+    if(Number(options_lavar["tempo"].val()) < 1) { return pg_receita_disable(options_lavar["back"]); }
     
     pg_receita_enable(options_lavar["back"]);
 }
 
 function pg_receita_button_manage_back_aquecer() {
     if(receita_data["AquecerAgua"]) {
-        if(Number(options_aquecer["setpoint"].value) < 1) { return pg_receita_disable(options_aquecer["back"]); }
+        if(Number(options_aquecer["setpoint"].val()) < 1) { return pg_receita_disable(options_aquecer["back"]); }
     }
 
     pg_receita_enable(options_aquecer["back"]);
 }
 
 function pg_receita_button_manage_back_centrifugar() {
-    if(Number(options_centrifugar["tempo"].value) < 1) { return pg_receita_disable(options_centrifugar["back"]); }
+    if(Number(options_centrifugar["tempo"].val()) < 1) { return pg_receita_disable(options_centrifugar["back"]); }
     if(!receita_data["Dreno"] && !receita_data["Reuso"]) { return pg_receita_disable(options_centrifugar["back"]); }
 
     pg_receita_enable(options_centrifugar["back"]);
@@ -639,18 +654,15 @@ function pg_receita_button_back() {
 function pg_receita_insert_data() {
     let pg_receita_temp_step_index = receita_data["step_index"];
 
-    console.log(receita_data["step_index"]);
     receita_data = JSON.parse(JSON.stringify(receita_object[Number(receita_data["step_index"] - 1)]));
 
-    console.log(receita_data);
 
     receita_data["step_index"] = pg_receita_temp_step_index;
 
     options_geral["step_index"].text("Passo: " + Number(receita_data["step_index"]));
 
-    console.log(receita_data);
 
-    options_geral["StepName"].value = receita_data["StepName"];
+    options_geral["StepName"].val(receita_data["StepName"]);
     if(receita_data["Carregar"]) {
         receita_data["Carregar"] = false;
         pg_receita_carregar_maquina();
@@ -667,10 +679,9 @@ function pg_receita_insert_data() {
         receita_data["Lavar"] = false;
         pg_receita_lavar();
 
-        options_lavar["tempo"].value = receita_data["Tempo"];
+        options_lavar["tempo"].val(receita_data["Tempo"]);
 
         console.clear();
-        console.log(receita_data);
 
         if(receita_data["NivelAgua"] == 1) { pg_receita_lavar_nivel_baixo(); }
         else if(receita_data["NivelAgua"] == 2) { pg_receita_lavar_nivel_medio(); }
@@ -687,7 +698,7 @@ function pg_receita_insert_data() {
         if(receita_data["AquecerAgua"]) { // Aquecer Água
             receita_data["AquecerAgua"] = false;
             pg_receita_lavar_aquecer_aquecimento();
-            options_aquecer["setpoint"].value = receita_data["TempAgua"];
+            options_aquecer["setpoint"].val(receita_data["TempAgua"]);
             if(receita_data["aguardarPatamar"]) {
                 receita_data["aguardarPatamar"] = false;
                 pg_receita_lavar_aquecer_patamar();
@@ -697,7 +708,7 @@ function pg_receita_insert_data() {
             }
         }
 
-        for(let i=0; i < 8; i++) { options_produtos["produto_" + String(i+1)].value = receita_data[String("Soap") + String(i+1)] }
+        for(let i=0; i < 8; i++) { options_produtos["produto_" + String(i+1)].val(receita_data[String("Soap") + String(i+1)]); }
         receita_data["relacao_ml_s"] = !receita_data["relacao_ml_s"];
         pg_receita_lavar_produtos_medida();
 
@@ -706,7 +717,7 @@ function pg_receita_insert_data() {
         receita_data["Centrifugar"] = false;
         pg_receita_centrifugar();
 
-        options_centrifugar["tempo"].value = receita_data["Tempo"];
+        options_centrifugar["tempo"].val(receita_data["Tempo"]);
         if(options_centrifugar["dreno_1"]) {
             receita_data["Dreno"] = false;
             pg_receita_centrifugar_dreno_1();
@@ -725,9 +736,7 @@ function pg_receita_button_next() {
     options_geral["step_index"].text("Passo: " + Number(receita_data["step_index"]));
     pg_receita_reset_elements();
 
-    console.log(receita_data["step_index"]);
     if(receita_object[receita_data["step_index"] - 1]) {
-        console.log("Tem proximo");
         pg_receita_insert_data();
     }
 }
@@ -743,10 +752,6 @@ function pg_receita_button_insert() {
         else { break; }
     }
 
-    console.log("");
-    console.log("pg_receita_temp = " + pg_receita_temp);
-    console.log("");
-
     while(pg_receita_temp > 0) {
         receita_object[(receita_data["step_index"] - 1) + pg_receita_temp] = receita_object[(receita_data["step_index"] - 1) + (pg_receita_temp - 1)];
         pg_receita_temp--;
@@ -760,7 +765,6 @@ function pg_receita_button_insert() {
 function pg_receita_button_delete() {
     if(receita_data["step_index"] <= 1) { return pg_receita_reset_elements(); }
 
-    console.log("receita_object.splice(" + (receita_data["step_index"] - 1) + ", 1);");
     receita_object.splice(receita_data["step_index"] - 1, 1);
 
     pg_receita_reset_elements();
@@ -772,23 +776,52 @@ function pg_receita_button_delete() {
 
 // Função que mostra a caixa para inserir o nome da receita
 function pg_receita_button_box_finish() {
-    $("#pg_receita_save").addEventListener("keydown", (e) => {
+    document.body.querySelector("#pg_receita_finish_input").addEventListener("keydown", (e) => {
         if(e["keyCode"] == 13) { pg_receita_button_finish(); }
     });
 
-    $("#pg_receita").style = "opacity: .7; z-index: 1; background-color: gray; pointer-events:none";
-    $("#pg_receita_buttons_list").style = "pointer-events:none; display: none;";
-    $("#pg_receita_finish_box_container").style = "position:absolute;flex-direction:column;border-radius:15px;padding:2%;z-index:99;top:25%;display:flex;background-color:white;pointer-events:all";
+    $("#pg_receita").css({
+        "opacity"           : ".7",
+        "z-index"           : "1",
+        "background-color"  : "gray",
+        "pointer-events"    : "none"
+    });
+
+    $("#pg_receita_buttons_list").css({
+        "pointer-events"    : "none",
+        "display"           : "none"
+    });
+
+    $("#pg_receita_finish_box_container").css({
+        "position"          : "absolute",
+        "flex-direction"    : "column",
+        "border-radius"     : "15px",
+        "padding"           : "2%",
+        "z-index"           : "99",
+        "top"               : "25%",
+        "display"           : "flex",
+        "background-color"  : "white",
+        "pointer-events"    : "all"
+    });
 }
 
 function pg_receita_button_finish() {
-    $("#pg_receita").style = "opacity: 1; background-color: white; pointer-events:all";
-    $("#pg_receita_buttons_list").style = "opacity: 1; pointer-events: all";
-    $("#pg_receita_finish_box_container").style = "display: none";
+    $("#pg_receita").css({
+        "opacity"           : "1",
+        "background-color"  : "white",
+        "pointer-events"    : "all"
+    });
+
+    $("#pg_receita_buttons_list").css({
+        "display"           : "flex",
+        "pointer-events"    : "all"
+    });
+
+    $("#pg_receita_finish_box_container").css ("display", "none");
 
     pg_receita_append_json_final();
 
-    receita_object["programName"] = $("#pg_receita_finish_input").value;
+    receita_object["programName"] = $("#pg_receita_finish_input").val();
 
     let pg_receita_blob_name = receita_object["programName"] + ".json";
 
@@ -796,7 +829,7 @@ function pg_receita_button_finish() {
         receita_json[String(index)] = receita_object[index];
     });
 
-    let pg_receita_blob = new Blob([(JSON.stringify(receita_json))], { type: 'text/csv;charset=utf-8;' });
+    let pg_receita_blob = new Blob([(JSON.stringify(receita_json))], { type: 'text/json;charset=utf-8;' });
     if(navigator.msSaveBlob) {
         navigator.msSaveBlob(pg_receita_blob, pg_receita_blob_name);
     } else {
@@ -805,10 +838,10 @@ function pg_receita_button_finish() {
             let url = URL.createObjectURL(pg_receita_blob);
             link.setAttribute("href", url);
             link.setAttribute("download", pg_receita_blob_name);
-            link.style = "visibility: hidden";
-            $("#pg_receita").appendChild(link);
+            link.style.visibility = "hidden";
+            document.body.appendChild(link);
             link.click();
-            $("#pg_receita").removeChild(link);
+            document.body.removeChild(link);
         }
     }
 }
@@ -827,7 +860,7 @@ function pg_receita_append_json_final() {
     else if(receita_data["Lavar"]) { // Lavar
         temp_json["Lavar"] = true;
 
-        temp_json["Tempo"] = Number(options_lavar["tempo"].value);
+        temp_json["Tempo"] = Number(options_lavar["tempo"].val());
 
         temp_json["NivelAgua"] = receita_data["NivelAgua"];
 
@@ -841,7 +874,7 @@ function pg_receita_append_json_final() {
 
         if(receita_data["AquecerAgua"]) { // Aquecer
             temp_json["AquecerAgua"] = true;
-            temp_json["TempAgua"] = Number(options_aquecer["setpoint"].value);
+            temp_json["TempAgua"] = Number(options_aquecer["setpoint"].val());
             temp_json["aguardarPatamar"] = (receita_data["aguardarPatamar"] ? true : false);
             temp_json["manterAquecido"] = (receita_data["manterAquecido"] ? true : false);
         } else { // Não aquecer
@@ -851,18 +884,18 @@ function pg_receita_append_json_final() {
             temp_json["manterAquecido"] = false;
         }
 
-        for(let i=0; i < 8; i++) { temp_json[String("Soap") + String(i+1)] = Number(options_produtos[String("produto_") + String(i+1)].value); }
+        for(let i=0; i < 8; i++) { temp_json[String("Soap") + String(i+1)] = Number(options_produtos[String("produto_") + String(i+1)].val()); }
         temp_json["relacao_ml_s"] = receita_data["relacao_ml_s"];
 
     } else if(receita_data["Centrifugar"]) { // Centrifugar
         temp_json["Centrifugar"] = true;
-        temp_json["Tempo"] = Number(options_centrifugar["tempo"].value);
+        temp_json["Tempo"] = Number(options_centrifugar["tempo"].val());
         temp_json["Dreno"] = (receita_data["Dreno"] ? true : false);
         temp_json["Reuso"] = (receita_data["Reuso"] ? true : false);
     } else if(receita_data["Dreno"]) { temp_json["Dreno"] = true; }
     else if(receita_data["Reuso"]) { temp_json["Reuso"] = true; }
     
-    temp_json["StepName"] = options_geral["StepName"].value;
+    temp_json["StepName"] = options_geral["StepName"].val();
 
     receita_object[String(receita_data["step_index"] - 1)] = temp_json;
 }
@@ -880,8 +913,6 @@ function pg_receita_reset_elements() {
         "step_index"    : _pg_receita_step_index
     };
 
-    console.log(receita_data);
-
     // Resetando Geral
     pg_receita_set_src(options_geral["Carregar"], pg_receita_image.carregar_off);
     pg_receita_set_src(options_geral["Lavar"], pg_receita_image.lavar_off);
@@ -889,37 +920,45 @@ function pg_receita_reset_elements() {
     pg_receita_set_src(options_geral["Dreno"], pg_receita_image.dreno_1_off);
     pg_receita_set_src(options_geral["Descarregar"], pg_receita_image.descarregar_off);
     pg_receita_set_src(options_geral["Reuso"], pg_receita_image.dreno_2_off);
-    for(let index in options_geral) { if(index != "StepName") { pg_receita_enable(options_geral[index]); } }
-    options_geral["StepName"].value = "";
+    for(let index in options_geral) {
+        if(index != "StepName") { 
+            pg_receita_enable(options_geral[index]);
+        }
+    }
+    options_geral["StepName"].val("");
 
     // Resetando Lavar
-    options_lavar["tempo"].value = 0;
+    options_lavar["tempo"].val(0);
     pg_receita_set_src(options_lavar["agua_1"], pg_receita_image.agua_1_off);
     pg_receita_set_src(options_lavar["baixo"], pg_receita_image.nivel_baixo_off);
     pg_receita_set_src(options_lavar["medio"], pg_receita_image.nivel_medio_off);
     pg_receita_set_src(options_lavar["alto"], pg_receita_image.nivel_alto_off);
     pg_receita_set_src(options_lavar["agua_2"], pg_receita_image.agua_2_off);
-    for(let index in options_lavar) { if(index != "back") { pg_receita_enable(options_lavar[index]); } }
+    for(let index in options_lavar) {
+        if(index != "back" && index != "interval") { 
+            pg_receita_enable(options_lavar[index]);
+        }
+    }
 
     // - Resetando Aquecer
-    options_aquecer["aquecimento"].value = "Desligado";
-    options_aquecer["aquecimento"].style = "background-color: rgb(98, 125, 180);";
+    options_aquecer["aquecimento"].val("Desligado");
+    options_aquecer["aquecimento"].css("background-color", "rgb(98, 125, 180)");
 
-    options_aquecer["setpoint"].value = 0;
+    options_aquecer["setpoint"].val(0);
 
-    options_aquecer["patamar"].value = "Não";
-    options_aquecer["patamar"].style = "background-color: rgb(98, 125, 180);";
+    options_aquecer["patamar"].val("Não");
+    options_aquecer["patamar"].css("background-color", "rgb(98, 125, 180)");
 
-    options_aquecer["manter"].value = "Não";
-    options_aquecer["manter"].style = "background-color: rgb(98, 125, 180);";
+    options_aquecer["manter"].val("Não");
+    options_aquecer["manter"].css("background-color", "rgb(98, 125, 180)");
 
     // - Resetando Produtos
-    for(let i=0; i < 8; i++) { options_produtos[String("produto_") + String(i+1)].value = 0; }
+    for(let i=0; i < 8; i++) { options_produtos[String("produto_") + String(i+1)].val(0); }
     receita_data["relacao_ml_s"] = true;
-    options_produtos["produto_unidade"].value = "Mililitros";
+    options_produtos["produto_unidade"].val("Mililitros");
 
     // Resetando Centrifugar
-    options_centrifugar["tempo"].value = 0;
+    options_centrifugar["tempo"].val(0);
     pg_receita_set_src(options_centrifugar["dreno_1"], pg_receita_image.dreno_1_off);
     pg_receita_set_src(options_centrifugar["dreno_2"], pg_receita_image.dreno_2_off);
 
