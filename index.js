@@ -44,4 +44,4 @@ class WidgetImages {
     }
 };
 
-export { WidgetImages(); }
+export { WidgetImages; }
