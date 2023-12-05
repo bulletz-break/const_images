@@ -43,5 +43,3 @@ class WidgetImages {
         console.log("pg_receita_image inicializado");
     }
 };
-
-export { WidgetImages };
