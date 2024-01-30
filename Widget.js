@@ -300,7 +300,7 @@ class Widget {
 
         // Adicionando inputs dos produtos 1 ~ 8 no objeto dos elementos da tela
         for(let i = 0; i < 8; i++) {
-            this.elements['data']['produtos'][`produto_${i+1}`] = $(`#screen_produto_${i+1}`/*, self.ctx.$container*/);
+            this.elements['data']['produtos'][`produto_${i+1}`] = $(`#screen_produto_${i+1}`, this.container);
         }
     }
 
@@ -320,108 +320,108 @@ class Widget {
             "images"    : { // Objeto contendo os elementos que devem ser inseridas as imagens
                 // Imagens indepentendes da tela atual
                 "absolute"  :  {
-                    "logo"  : $("#screen_iks_logo"/*, self.ctx.$container*/)
+                    "logo"  : $("#screen_iks_logo", this.container)
                 },
                 // Imagens da Tela Inicial
                 "initial"   : {
-                    "carregar"      : $("#screen_stage_carregar"/*, self.ctx.$container*/),
-                    "lavar"         : $("#screen_stage_lavar"/*, self.ctx.$container*/),
-                    "centrifugar"   : $("#screen_stage_centrifugar"/*, self.ctx.$container*/),
-                    "dreno_1"       : $("#screen_stage_dreno_1"/*, self.ctx.$container*/),
-                    "descarregar"   : $("#screen_stage_descarregar"/*, self.ctx.$container*/),
-                    "dreno_2"       : $("#screen_stage_dreno_2"/*, self.ctx.$container*/)
+                    "carregar"      : $("#screen_stage_carregar", this.container),
+                    "lavar"         : $("#screen_stage_lavar", this.container),
+                    "centrifugar"   : $("#screen_stage_centrifugar", this.container),
+                    "dreno_1"       : $("#screen_stage_dreno_1", this.container),
+                    "descarregar"   : $("#screen_stage_descarregar", this.container),
+                    "dreno_2"       : $("#screen_stage_dreno_2", this.container)
                 },
                 // Imagens da Tela de Lavar
                 "lavar"     : {
-                    "agua_1"        : $("#screen_stage_lavar_agua_1"/*, self.ctx.$container*/),
-                    "nivel_baixo"   : $("#screen_stage_lavar_nivel_baixo"/*, self.ctx.$container*/),
-                    "nivel_medio"   : $("#screen_stage_lavar_nivel_medio"/*, self.ctx.$container*/),
-                    "nivel_alto"    : $("#screen_stage_lavar_nivel_alto"/*, self.ctx.$container*/),
-                    "agua_2"        : $("#screen_stage_lavar_agua_2"/*, self.ctx.$container*/),
-                    "temperatura"   : $("#screen_stage_lavar_aquecimento"/*, self.ctx.$container*/),
-                    "produtos"      : $("#screen_stage_lavar_produtos"/*, self.ctx.$container*/),
-                    "time"          : $("#screen_stage_lavar_time"/*, self.ctx.$container*/),
-                    "back"          : $("#screen_stage_lavar_voltar"/*, self.ctx.$container*/)
+                    "agua_1"        : $("#screen_stage_lavar_agua_1", this.container),
+                    "nivel_baixo"   : $("#screen_stage_lavar_nivel_baixo", this.container),
+                    "nivel_medio"   : $("#screen_stage_lavar_nivel_medio", this.container),
+                    "nivel_alto"    : $("#screen_stage_lavar_nivel_alto", this.container),
+                    "agua_2"        : $("#screen_stage_lavar_agua_2", this.container),
+                    "temperatura"   : $("#screen_stage_lavar_aquecimento", this.container),
+                    "produtos"      : $("#screen_stage_lavar_produtos", this.container),
+                    "time"          : $("#screen_stage_lavar_time", this.container),
+                    "back"          : $("#screen_stage_lavar_voltar", this.container)
                 },
                 // Imagens da Tela de Centrifugação
                 "centrifugar"   : {
-                    "dreno_1"       : $("#screen_stage_centrifugar_dreno_1"/*, self.ctx.$container*/),
-                    "dreno_2"       : $("#screen_stage_centrifugar_dreno_2"/*, self.ctx.$container*/),
-                    "back"          : $("#screen_stage_centrifugar_voltar"/*, self.ctx.$container*/)
+                    "dreno_1"       : $("#screen_stage_centrifugar_dreno_1", this.container),
+                    "dreno_2"       : $("#screen_stage_centrifugar_dreno_2", this.container),
+                    "back"          : $("#screen_stage_centrifugar_voltar", this.container)
                 },
                 // Imagens da Tela de Produtos Químicos
                 "produtos"      : {
-                    "back"          : $("#screen_stage_produtos_voltar"/*, self.ctx.$container*/)
+                    "back"          : $("#screen_stage_produtos_voltar", this.container)
                 },
                 // Imagens da Tela de Aquecimento
                 "aquecimento"   : {
-                    "back"          : $("#screen_stage_aquecimento_voltar"/*, self.ctx.$container*/)
+                    "back"          : $("#screen_stage_aquecimento_voltar", this.container)
                 }
             },
             "data"  : { // Objeto contendo os elementos que serão coletados os dados para a construção do JSON da Receita
                 "initial" : {
-                    "carregar"      : $("#screen_stage_carregar"/*, self.ctx.$container*/),
-                    "lavar"         : $("#screen_stage_lavar"/*, self.ctx.$container*/),
-                    "centrifugar"   : $("#screen_stage_centrifugar"/*, self.ctx.$container*/),
-                    "dreno_1"       : $("#screen_stage_dreno_1"/*, self.ctx.$container*/),
-                    "descarregar"   : $("#screen_stage_descarregar"/*, self.ctx.$container*/),
-                    "dreno_2"       : $("#screen_stage_dreno_2"/*, self.ctx.$container*/),
-                    "step_name"     : $("#step_name_input"/*, self.ctx.$container*/),
-                    "delicate"      : $("#delicate_wash_input"/*, self.ctx.$container*/)
+                    "carregar"      : $("#screen_stage_carregar", this.container),
+                    "lavar"         : $("#screen_stage_lavar", this.container),
+                    "centrifugar"   : $("#screen_stage_centrifugar", this.container),
+                    "dreno_1"       : $("#screen_stage_dreno_1", this.container),
+                    "descarregar"   : $("#screen_stage_descarregar", this.container),
+                    "dreno_2"       : $("#screen_stage_dreno_2", this.container),
+                    "step_name"     : $("#step_name_input", this.container),
+                    "delicate"      : $("#delicate_wash_input", this.container)
                 },
                 "lavar" : {
-                    "agua_1"            : $("#screen_stage_lavar_agua_1"/*, self.ctx.$container*/),
-                    "nivel_baixo"       : $("#screen_stage_lavar_nivel_baixo"/*, self.ctx.$container*/),
-                    "nivel_medio"       : $("#screen_stage_lavar_nivel_medio"/*, self.ctx.$container*/),
-                    "nivel_alto"        : $("#screen_stage_lavar_nivel_alto"/*, self.ctx.$container*/),
-                    "agua_2"            : $("#screen_stage_lavar_agua_2"/*, self.ctx.$container*/),
-                    "aquecimento"       : $("#screen_stage_lavar_aquecimento"/*, self.ctx.$container*/),
-                    "produtos"          : $("#screen_stage_lavar_produtos"/*, self.ctx.$container*/),
-                    "back"              : $("#screen_stage_lavar_voltar"/*, self.ctx.$container*/),
-                    "time"              : $("#step_time_input"/*, self.ctx.$container*/)
+                    "agua_1"            : $("#screen_stage_lavar_agua_1", this.container),
+                    "nivel_baixo"       : $("#screen_stage_lavar_nivel_baixo", this.container),
+                    "nivel_medio"       : $("#screen_stage_lavar_nivel_medio", this.container),
+                    "nivel_alto"        : $("#screen_stage_lavar_nivel_alto", this.container),
+                    "agua_2"            : $("#screen_stage_lavar_agua_2", this.container),
+                    "aquecimento"       : $("#screen_stage_lavar_aquecimento", this.container),
+                    "produtos"          : $("#screen_stage_lavar_produtos", this.container),
+                    "back"              : $("#screen_stage_lavar_voltar", this.container),
+                    "time"              : $("#step_time_input", this.container)
                 },
                 "produtos"  : {
-                    "measure"           : $("#screen_stage_produtos_measure_input"/*, self.ctx.$container*/),
-                    "back"              : $("#screen_stage_produtos_voltar"/*, self.ctx.$container*/)
+                    "measure"           : $("#screen_stage_produtos_measure_input", this.container),
+                    "back"              : $("#screen_stage_produtos_voltar", this.container)
                 },
                 "centrifugar" : {
-                    "dreno_1"           : $("#screen_stage_centrifugar_dreno_1"/*, self.ctx.$container*/),
-                    "dreno_2"           : $("#screen_stage_centrifugar_dreno_2"/*, self.ctx.$container*/),
-                    "back"              : $("#screen_stage_centrifugar_voltar"/*, self.ctx.$container*/),
-                    "time"              : $("#screen_stage_centrifugar_tempo"/*, self.ctx.$container*/)
+                    "dreno_1"           : $("#screen_stage_centrifugar_dreno_1", this.container),
+                    "dreno_2"           : $("#screen_stage_centrifugar_dreno_2", this.container),
+                    "back"              : $("#screen_stage_centrifugar_voltar", this.container),
+                    "time"              : $("#screen_stage_centrifugar_tempo", this.container)
                 },
                 "aquecimento"   : {
-                    "aquecimento"       : $("#screen_stage_aquecimento_aquecimento"/*, self.ctx.$container*/),
-                    "setpoint"          : $("#screen_stage_aquecimento_setpoint"/*, self.ctx.$container*/),
-                    "patamar"           : $("#screen_stage_aquecimento_patamar"/*, self.ctx.$container*/),
-                    "manter"            : $("#screen_stage_aquecimento_manter"/*, self.ctx.$container*/),
-                    "back"              : $("#screen_stage_aquecimento_voltar"/*, self.ctx.$container*/)
+                    "aquecimento"       : $("#screen_stage_aquecimento_aquecimento", this.container),
+                    "setpoint"          : $("#screen_stage_aquecimento_setpoint", this.container),
+                    "patamar"           : $("#screen_stage_aquecimento_patamar", this.container),
+                    "manter"            : $("#screen_stage_aquecimento_manter", this.container),
+                    "back"              : $("#screen_stage_aquecimento_voltar", this.container)
                 }
             },
             "buttons"   : {
-                "container"         : $("#screen_buttons_container"/*, self.ctx.$container*/),
-                "voltar"            : $("#screen_button_voltar"/*, self.ctx.$container*/),
-                "proximo"           : $("#screen_button_proximo"/*, self.ctx.$container*/),
-                "inserir"           : $("#screen_button_inserir"/*, self.ctx.$container*/),
-                "excluir"           : $("#screen_button_excluir"/*, self.ctx.$container*/),
-                "salvar"            : $("#screen_button_salvar"/*, self.ctx.$container*/)
+                "container"         : $("#screen_buttons_container", this.container),
+                "voltar"            : $("#screen_button_voltar", this.container),
+                "proximo"           : $("#screen_button_proximo", this.container),
+                "inserir"           : $("#screen_button_inserir", this.container),
+                "excluir"           : $("#screen_button_excluir", this.container),
+                "salvar"            : $("#screen_button_salvar", this.container)
             },
             "screen" : {
-                "initial"       : $("#screen_stage_container_initial"/*, self.ctx.$container*/),
-                "lavar"         : $("#screen_stage_container_lavar"/*, self.ctx.$container*/),
-                "produtos"      : $("#screen_stage_container_produtos"/*, self.ctx.$container*/),
-                "aquecimento"   : $("#screen_stage_container_aquecimento"/*, self.ctx.$container*/),
-                "centrifugar"   : $("#screen_stage_container_centrifugar"/*, self.ctx.$container*/)
+                "initial"       : $("#screen_stage_container_initial", this.container),
+                "lavar"         : $("#screen_stage_container_lavar", this.container),
+                "produtos"      : $("#screen_stage_container_produtos", this.container),
+                "aquecimento"   : $("#screen_stage_container_aquecimento", this.container),
+                "centrifugar"   : $("#screen_stage_container_centrifugar", this.container)
             },
             "save"  : {
-                "container"         : $("#screen_save_container"/*, self.ctx.$container*/),
-                "input"             : $("#screen_save_input"/*, self.ctx.$container*/),
-                "button"            : $("#screen_save_button"/*, self.ctx.$container*/)
+                "container"         : $("#screen_save_container", this.container),
+                "input"             : $("#screen_save_input", this.container),
+                "button"            : $("#screen_save_button", this.container)
             },
             "other" : {
-                "clean_receita"         : $("#screen_clean_receita"/*, self.ctx.$container*/),
-                "import_receita_fake"   : $("#screen_import_receita_fake"/*, self.ctx.$container*/),
-                "import_receita_real"   : $("#screen_import_receita_real"/*, self.ctx.$container*/)
+                "clean_receita"         : $("#screen_clean_receita", this.container),
+                "import_receita_fake"   : $("#screen_import_receita_fake", this.container),
+                "import_receita_real"   : $("#screen_import_receita_real", this.container)
             }
         };
     }
@@ -629,7 +629,7 @@ class Widget {
 
         // Limpar Receita
         this.elements['other']['clean_receita'].on("click", () => {
-            let step_index = $("#screen_step"/*, self.ctx.$container*/);
+            let step_index = $("#screen_step", this.container);
 
             this.receita = {'delicada' : (this.elements['data']['initial']['delicate'].is(":checked"))};
             this.step_init();
@@ -665,10 +665,10 @@ class Widget {
         let display_type;
 
         let element = {
-            "step_name" : $("#step_name_box"/*, self.ctx.$container*/),
-            "time"      : $("#step_time_box"/*, self.ctx.$container*/),
-            "delicate"  : $("#delicate_wash_box"/*, self.ctx.$container*/),
-            "import_clean"  : $("#import_clean_receita_container"/*, self.ctx.$container*/)
+            "step_name" : $("#step_name_box", this.container),
+            "time"      : $("#step_time_box", this.container),
+            "delicate"  : $("#delicate_wash_box", this.container),
+            "import_clean"  : $("#import_clean_receita_container", this.container)
         };
 
         // Esconder / mostrar elementos somente da Tela Inicial
@@ -929,7 +929,7 @@ class Widget {
      * @param {String} button_key chave do botão pressionado
      */
     manage_buttons(button_key) {
-        let step_index = $("#screen_step"/*, self.ctx.$container*/);
+        let step_index = $("#screen_step", this.container);
 
         switch(button_key) {
             // Voltar passo
@@ -1342,9 +1342,9 @@ class Widget {
         }
 
 
-        let result_element  = $("#screen_title"/*, self.ctx.$container*/)
+        let result_element  = $("#screen_title", this.container)
         let receita_reader  = new FileReader();
-        let step_index = $("#screen_step"/*, self.ctx.$container*/);
+        let step_index = $("#screen_step", this.container);
 
         // Arquivo incompatível
         if(receita_file.type && !receita_file.type.startsWith("application/json")) {
@@ -1358,6 +1358,8 @@ class Widget {
             this.insert_step_data(this.receita[this.step_index - 1]);
             step_index.text(`Passo: ${this.step_index}`);
         });
+
+        success("Receita carregada", result_element);
 
         receita_reader.readAsText(receita_file);
     }
