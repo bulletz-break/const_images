@@ -428,10 +428,13 @@ class Widget {
 
     /**
      * @brief Função para ajustar os elementos do Widget para responsividade
+     * 
+     * @param {Number} width largura da tela / Widget
+     * @param {Number} height altura da tela / Widget
      */
-    resize() {
-        this.width  = self.ctx.width;
-        this.height = self.ctx.height;
+    resize(width, height) {
+        this.width  = width;
+        this.height = height;
 
         if(this.width <= 700) {
             $(".screen_division_extremes_item").css({
@@ -1340,7 +1343,6 @@ class Widget {
             receita_file    = event.originalEvent.dataTransfer.items[0].getAsFile();
             if(!event.originalEvent.dataTransfer || event.originalEvent.dataTransfer.files.length <= 0) return false;
         }
-
 
         let result_element  = $("#screen_title", this.container)
         let receita_reader  = new FileReader();
