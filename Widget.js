@@ -430,8 +430,8 @@ class Widget {
      * @brief Função para ajustar os elementos do Widget para responsividade
      */
     resize() {
-        this.width  = window.innerWidth;
-        this.height = window.innerHeight;
+        this.width  = self.ctx.width;
+        this.height = self.ctx.height;
 
         if(this.width <= 700) {
             $(".screen_division_extremes_item").css({
