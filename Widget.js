@@ -66,229 +66,6 @@ class Widget {
          */
         this.images     = new WidgetImages();
         // -------------------------------------------------------------------------------------------------
-        this.events     = {
-            "initial"   : {
-                /**
-                 * @brief Gerencia os eventos trigados da tela
-                 * 
-                 * @param {Object} element elemento clicado
-                 */
-                "manager"   : (element) => {
-                    /**
-                     * @brief Altera a imagem e o status do estágio no JSON do passo da Receita
-                     * 
-                     * @param key (string) chave JSON para alterar o valor
-                     * @param stage (string) estágio para alterar
-                     * @param status (bool) status para setar
-                     * @param t (?) variável `this` da classe
-                     */
-                    function stage_set_status(key, stage, status, t) {
-                        t.step[key]   = status;
-                        t.elements['data']['initial'][stage].attr("src", t.images[`${stage}_${(status ? "on" : "off")}`]);
-                    }
-                    // Obtendo chave do elemento clicado
-                    let key = element.attr("--key");
-                    
-                    // Obtendo estágio clicado
-                    let stage = element.attr("--stage");
-
-                    // Objeto contendo os elementos que devem ser bloqueados para garantir que só um seja selecionado
-                    let object = {}
-                    Object.keys(this.elements['data']['initial']).forEach((index) => {
-                        if(index != "step_name" && index != "delicate") {
-                            object[index] = this.elements['data']['initial'][index];
-                        }
-                    });
-
-                    // Por algum motivo, ele bloqueia o nome do passo
-                    // Resolvido com a verificação
-                    if(key != "StepName" && key != "delicate") {
-                        if(!this.step[key]) { // Desativado; Ativar
-                            stage_set_status(key, stage, true, this);    // Ativando
-                            this.stage_set_block(object, stage, true);     // Bloqueando outros Estágios
-                        } else { // Ativado; Desativar
-                            stage_set_status(key, stage, false, this);   // Desativando
-                            this.stage_set_block(object, stage, false);    // Desbloqueando outros Estágios
-                        }
-                    }
-
-                    if(stage == "lavar" || stage == "centrifugar") {
-                        // Se estiver ativando o Estágio
-                        if(this.step[key]) { this.show_screen(stage); }
-                    }
-                }
-            },
-            "lavar"     : {
-                "manager"   : (element) => {
-                    // Obtendo estágio clicado
-                    let stage   = element.attr("--stage");
-                    // Obtendo chave do JSON da Receita do estágio
-                    let key     = element.attr("--key");
-                    // Objeto com os elementos que devem ser forçados à escolha única
-                    let object  = {};
-
-                    switch(key) {
-                        case "NivelAgua" : {
-                            this.step[key]  = Number(element.attr("--value"));
-                            object = {
-                                "nivel_baixo"   : this.elements['data']['lavar']['nivel_baixo'],
-                                "nivel_medio"   : this.elements['data']['lavar']['nivel_medio'],
-                                "nivel_alto"    : this.elements['data']['lavar']['nivel_alto']
-                            };
-                            break;
-                        }
-
-                        case "AguaFria" :
-                        case "AguaQuente" : {
-                            // Opção desativada; Ativar
-                            if(!this.step[key]) {
-                                this.step[key] = true;
-                            } else { this.step[key] = false; } // Opção ativada; Desativar
-
-                            object = {
-                                "agua_1"        : this.elements['data']['lavar']['agua_1'],
-                                "agua_2"        : this.elements['data']['lavar']['agua_2']
-                            }
-                            break;
-                        }
-
-                        case "AquecerAgua" :
-                        case "produtos" : {
-                            this.show_screen(stage);
-                            break;
-                        }
-
-                        case "Tempo": {
-                            this.step["Tempo"] = Number(this.elements['data']['lavar']['time'].val());
-                            break;
-                        }
-
-                        case "back": {
-                            this.show_screen("initial");
-                            break;
-                        }
-                    }
-
-                    this.set_once_choose(object, stage);
-                }
-            },
-            "produtos"  : {
-                "manager"   : (element) => {
-                    // Obtendo chave do elemento clicado
-                    let key = element.attr("--key");
-
-                    // Garantindo que a chave exista
-                    this.step['relacao_ml_s'] = (this.step['relacao_ml_s'] == undefined ? true : this.step['relacao_ml_s']);
-
-                    if(key == "back") {
-                        for(let i = 0; i < 8; i++) {
-                            this.step[`Soap${i+1}`] = Number(this.elements['data']['produtos'][`produto_${i+1}`].val());
-                        }
-
-                        this.show_screen("lavar");
-                    } else if(key == "measure") {
-                        // Está na relação ml/s; trocar para segundos
-                        if(this.elements['data']['produtos']['measure'].val() == "Mililitros") {
-                            this.step['relacao_ml_s']   = false;
-                            this.elements['data']['produtos']['measure'].val("Segundos");
-                        } else { // Está na medida de segundos; trocar para relação ml/s
-                            this.elements['data']['produtos']['measure'].val("Mililitros");
-                            this.step['relacao_ml_s']   = true;
-                        }
-                    }
-                }
-            },
-            "centrifugar" : {
-                "manager" : (element) => {
-                    // Obtendo a chave do elemento clicado
-                    let key = element.attr("--key");
-                    // Obtendo estágio clicado
-                    let stage = element.attr("--stage");
-
-                    switch(key) {
-                        case "Dreno": {
-                            this.step["Dreno"]  = true;
-                            this.step["Reuso"]  = false;
-                            break;
-                        }
-
-                        case "Reuso": {
-                            this.step["Reuso"]  = true;
-                            this.step["Dreno"]  = false;
-                            break;
-                        }
-
-                        case "back" : {
-                            this.show_screen("initial");
-                            break;
-                        }
-
-                        case "Tempo" : {
-                            this.step["Tempo"]  = Number(this.elements['data']['centrifugar']['time'].val());
-                            break;
-                        }
-                    }
-
-                    if(key == "Dreno" || key == "Reuso") {
-                        this.set_once_choose({
-                            "dreno_1"   : this.elements['data']['centrifugar']['dreno_1'],
-                            "dreno_2"   : this.elements['data']['centrifugar']['dreno_2']
-                        }, stage);
-                    }
-                }
-            },
-            "aquecimento" : {
-                "manager"   : (element) => {
-                    // Obtndo a chave do elemento clicado
-                    let key = element.attr("--key");
-
-                    switch(key) {
-                        case "AquecerAgua": {
-                            if(this.step["AquecerAgua"]) { // Ativado; Desativar
-                                this.step["AquecerAgua"]    = false;
-                                this.elements['data']['aquecimento']['aquecimento'].val("Desligado");
-                            } else {
-                                this.step["AquecerAgua"]    = true;
-                                this.elements['data']['aquecimento']['aquecimento'].val("Ligado");
-                            }
-                            break;
-                        }
-
-                        case "aguardarPatamar": {
-                            if(this.step["aguardarPatamar"]) {
-                                this.step["aguardarPatamar"]    = false;
-                                this.elements['data']['aquecimento']['patamar'].val("Não");
-                            } else {
-                                this.step["aguardarPatamar"]    = true;
-                                this.elements['data']['aquecimento']['patamar'].val("Sim");
-                            }
-                            break;
-                        }
-
-                        case "manterTemperatura" : {
-                            if(this.step["manterTemperatura"]) {
-                                this.step["manterTemperatura"]  = false;
-                                this.elements['data']['aquecimento']['manter'].val("Não");
-                            } else {
-                                this.step["manterTemperatura"]  = true;
-                                this.elements['data']['aquecimento']['manter'].val("Sim");
-                            }
-                            break;
-                        }
-
-                        case "TempAgua": {
-                            this.step["TempAgua"]   = Number(this.elements['data']['aquecimento']['setpoint'].val());
-                            break;
-                        }
-
-                        case "back": {
-                            this.show_screen("lavar");
-                            break;
-                        }
-                    }
-                }
-            }
-        };
     }
 
     /**
@@ -569,6 +346,230 @@ class Widget {
      * @brief Registra os eventos para manipulação dos dados do Widget
      */
     set_events() {
+        this.events     = {
+            "initial"   : {
+                /**
+                 * @brief Gerencia os eventos trigados da tela
+                 * 
+                 * @param {Object} element elemento clicado
+                 */
+                "manager"   : (element) => {
+                    /**
+                     * @brief Altera a imagem e o status do estágio no JSON do passo da Receita
+                     * 
+                     * @param key (string) chave JSON para alterar o valor
+                     * @param stage (string) estágio para alterar
+                     * @param status (bool) status para setar
+                     * @param t (?) variável `this` da classe
+                     */
+                    function stage_set_status(key, stage, status, t) {
+                        t.step[key]   = status;
+                        t.elements['data']['initial'][stage].attr("src", t.images[`${stage}_${(status ? "on" : "off")}`]);
+                    }
+                    // Obtendo chave do elemento clicado
+                    let key = element.attr("--key");
+                    
+                    // Obtendo estágio clicado
+                    let stage = element.attr("--stage");
+
+                    // Objeto contendo os elementos que devem ser bloqueados para garantir que só um seja selecionado
+                    let object = {}
+                    Object.keys(this.elements['data']['initial']).forEach((index) => {
+                        if(index != "step_name" && index != "delicate") {
+                            object[index] = this.elements['data']['initial'][index];
+                        }
+                    });
+
+                    // Por algum motivo, ele bloqueia o nome do passo
+                    // Resolvido com a verificação
+                    if(key != "StepName" && key != "delicate") {
+                        if(!this.step[key]) { // Desativado; Ativar
+                            stage_set_status(key, stage, true, this);    // Ativando
+                            this.stage_set_block(object, stage, true);     // Bloqueando outros Estágios
+                        } else { // Ativado; Desativar
+                            stage_set_status(key, stage, false, this);   // Desativando
+                            this.stage_set_block(object, stage, false);    // Desbloqueando outros Estágios
+                        }
+                    }
+
+                    if(stage == "lavar" || stage == "centrifugar") {
+                        // Se estiver ativando o Estágio
+                        if(this.step[key]) { this.show_screen(stage); }
+                    }
+                }
+            },
+            "lavar"     : {
+                "manager"   : (element) => {
+                    // Obtendo estágio clicado
+                    let stage   = element.attr("--stage");
+                    // Obtendo chave do JSON da Receita do estágio
+                    let key     = element.attr("--key");
+                    // Objeto com os elementos que devem ser forçados à escolha única
+                    let object  = {};
+
+                    switch(key) {
+                        case "NivelAgua" : {
+                            this.step[key]  = Number(element.attr("--value"));
+                            object = {
+                                "nivel_baixo"   : this.elements['data']['lavar']['nivel_baixo'],
+                                "nivel_medio"   : this.elements['data']['lavar']['nivel_medio'],
+                                "nivel_alto"    : this.elements['data']['lavar']['nivel_alto']
+                            };
+                            break;
+                        }
+
+                        case "AguaFria" :
+                        case "AguaQuente" : {
+                            // Opção desativada; Ativar
+                            if(!this.step[key]) {
+                                this.step[key] = true;
+                            } else { this.step[key] = false; } // Opção ativada; Desativar
+
+                            object = {
+                                "agua_1"        : this.elements['data']['lavar']['agua_1'],
+                                "agua_2"        : this.elements['data']['lavar']['agua_2']
+                            }
+                            break;
+                        }
+
+                        case "AquecerAgua" :
+                        case "produtos" : {
+                            this.show_screen(stage);
+                            break;
+                        }
+
+                        case "Tempo": {
+                            this.step["Tempo"] = Number(this.elements['data']['lavar']['time'].val());
+                            break;
+                        }
+
+                        case "back": {
+                            this.show_screen("initial");
+                            break;
+                        }
+                    }
+
+                    this.set_once_choose(object, stage);
+                }
+            },
+            "produtos"  : {
+                "manager"   : (element) => {
+                    // Obtendo chave do elemento clicado
+                    let key = element.attr("--key");
+
+                    // Garantindo que a chave exista
+                    this.step['relacao_ml_s'] = (this.step['relacao_ml_s'] == undefined ? true : this.step['relacao_ml_s']);
+
+                    if(key == "back") {
+                        for(let i = 0; i < 8; i++) {
+                            this.step[`Soap${i+1}`] = Number(this.elements['data']['produtos'][`produto_${i+1}`].val());
+                        }
+
+                        this.show_screen("lavar");
+                    } else if(key == "measure") {
+                        // Está na relação ml/s; trocar para segundos
+                        if(this.elements['data']['produtos']['measure'].val() == "Mililitros") {
+                            this.step['relacao_ml_s']   = false;
+                            this.elements['data']['produtos']['measure'].val("Segundos");
+                        } else { // Está na medida de segundos; trocar para relação ml/s
+                            this.elements['data']['produtos']['measure'].val("Mililitros");
+                            this.step['relacao_ml_s']   = true;
+                        }
+                    }
+                }
+            },
+            "centrifugar" : {
+                "manager" : (element) => {
+                    // Obtendo a chave do elemento clicado
+                    let key = element.attr("--key");
+                    // Obtendo estágio clicado
+                    let stage = element.attr("--stage");
+
+                    switch(key) {
+                        case "Dreno": {
+                            this.step["Dreno"]  = true;
+                            this.step["Reuso"]  = false;
+                            break;
+                        }
+
+                        case "Reuso": {
+                            this.step["Reuso"]  = true;
+                            this.step["Dreno"]  = false;
+                            break;
+                        }
+
+                        case "back" : {
+                            this.show_screen("initial");
+                            break;
+                        }
+
+                        case "Tempo" : {
+                            this.step["Tempo"]  = Number(this.elements['data']['centrifugar']['time'].val());
+                            break;
+                        }
+                    }
+
+                    if(key == "Dreno" || key == "Reuso") {
+                        this.set_once_choose({
+                            "dreno_1"   : this.elements['data']['centrifugar']['dreno_1'],
+                            "dreno_2"   : this.elements['data']['centrifugar']['dreno_2']
+                        }, stage);
+                    }
+                }
+            },
+            "aquecimento" : {
+                "manager"   : (element) => {
+                    // Obtndo a chave do elemento clicado
+                    let key = element.attr("--key");
+
+                    switch(key) {
+                        case "AquecerAgua": {
+                            if(this.step["AquecerAgua"]) { // Ativado; Desativar
+                                this.step["AquecerAgua"]    = false;
+                                this.elements['data']['aquecimento']['aquecimento'].val("Desligado");
+                            } else {
+                                this.step["AquecerAgua"]    = true;
+                                this.elements['data']['aquecimento']['aquecimento'].val("Ligado");
+                            }
+                            break;
+                        }
+
+                        case "aguardarPatamar": {
+                            if(this.step["aguardarPatamar"]) {
+                                this.step["aguardarPatamar"]    = false;
+                                this.elements['data']['aquecimento']['patamar'].val("Não");
+                            } else {
+                                this.step["aguardarPatamar"]    = true;
+                                this.elements['data']['aquecimento']['patamar'].val("Sim");
+                            }
+                            break;
+                        }
+
+                        case "manterTemperatura" : {
+                            if(this.step["manterTemperatura"]) {
+                                this.step["manterTemperatura"]  = false;
+                                this.elements['data']['aquecimento']['manter'].val("Não");
+                            } else {
+                                this.step["manterTemperatura"]  = true;
+                                this.elements['data']['aquecimento']['manter'].val("Sim");
+                            }
+                            break;
+                        }
+
+                        case "TempAgua": {
+                            this.step["TempAgua"]   = Number(this.elements['data']['aquecimento']['setpoint'].val());
+                            break;
+                        }
+
+                        case "back": {
+                            this.show_screen("lavar");
+                            break;
+                        }
+                    }
+                }
+            }
+        };
+
         // Registrando eventos de botões / imagens clicáveis
         Object.keys(this.elements["data"]).forEach((e_data_index) => {
             Object.keys(this.elements["data"][e_data_index]).forEach((o_data_index) => {
