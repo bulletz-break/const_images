@@ -12,7 +12,7 @@
 // MÉDIO    = 2
 // ALTO     = 3
 
-class Widget {
+class EditarReceitaOffline {
     /**
      * Construtor da Classe
      */
