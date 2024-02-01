@@ -297,6 +297,7 @@ class Widget {
     init() {
         this.get_elements();
         this.set_images();
+        this.set_produtos();
 
         // Adicionando inputs dos produtos 1 ~ 8 no objeto dos elementos da tela
         for(let i = 0; i < 8; i++) {
@@ -1364,5 +1365,46 @@ class Widget {
         success("Receita carregada", result_element);
 
         receita_reader.readAsText(receita_file);
+    }
+
+    /**
+     * @brief insere os inputs dos produtos 1 ~ 8
+     */
+    set_produtos() {
+        // Adicionando produtos 1 ~ 8
+        let container = $("#screen_stage_container_produtos_grid"/*, self.ctx.$container*/);
+        for(let i = 0; i < 8; i++) {
+            if(i < 4) { // Adicionando elementos da linha de cima
+                container.append(
+                    `
+                    <div class="screen_stage_container_up screen_stage_item_grid_container" style="padding: 10px;">
+                        <div class="screen_stage_produtos_item_container screen_stage_text_container">
+                            <label for="screen_produto_${i+1}">
+                                <span class="screen_text"> Produto ${i+1} </span>
+                            </label>
+                        </div>
+                        <div class="screen_stage_produtos_item_container screen_stage_input_container" id="screen_produto_${i+1}_container" style="width: 50%; max-width: none;">
+                            <input class="screen_input" id="screen_produto_${i+1}" type="number" value="0" style="max-width: none !important;">
+                        </div>
+                    </div>
+                    `
+                );
+            } else { // Adicionando elementos da linha de baixo
+                container.append(
+                    `
+                    <div class="screen_stage_container_bottom screen_stage_item_grid_container" style="padding: 10px;">
+                        <div class="screen_stage_produtos_item_container screen_stage_text_container">
+                            <label for="screen_produto_${i+1}">
+                                <span class="screen_text"> Produto ${i+1} </span>
+                            </label>
+                        </div>
+                        <div class="screen_stage_produtos_item_container screen_stage_input_container" id="screen_produto_${i+1}_container" style="width: 50%; max-width: none;">
+                            <input class="screen_input" id="screen_produto_${i+1}" type="number" value="0" style="max-width: none !important;">
+                        </div>
+                    </div>
+                    `
+                );
+            }
+        }
     }
 };
