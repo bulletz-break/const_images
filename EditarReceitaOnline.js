@@ -1504,7 +1504,7 @@ class EditarReceitaOnline {
      */
     load_receita_names() {        
         this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", ["receita_names"]).subscribe((attr) => {
-            this.receita_names  = (attr[0]["value"] == undefined ? false : attr[0]["value"]);
+            this.receita_names  = (attr[0] == undefined ? false : attr[0]);
         });
     }
 };
