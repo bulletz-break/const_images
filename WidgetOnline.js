@@ -1482,7 +1482,7 @@ class EditarReceitaOnline {
         console.log("load_receita_names()");
         let interval; // Variável para armazenar o intervalo de `receita_names`
         
-        receita_names_interval = setInterval(() => {
+        interval = setInterval(() => {
             this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", ["receita_names"]).subscribe((attr) => {
                 this.receita_names  = (attr[0])["value"] == undefined ? false : attr[0]["value"];
                 console.log("loaded");
