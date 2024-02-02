@@ -17,11 +17,26 @@ class EditarReceitaOnline {
     /**
      * Construtor da Classe
      */
-    constructor(container = null) {
+    constructor(container = null, attributeService = null, entity_id = null) {
         /**
          * @brief Container para obter os elementos limitados ao Widget
          */
         this.container  = container
+
+        /**
+         * @brief Objeto da classe contendo o serviço de atributos do ThingsBoard
+         */
+        this.attributeService   = attributeService;
+
+        /**
+         * @brief ID do dispositivo no ThingsBoard
+         */
+        this.entity_id  = entity_id;
+
+        /**
+         * @brief Nomes das receitas existentes na máquina
+         */
+        this.receita_names  = [];
 
         /**
          * @brief Array para armazenar a Receita completa
@@ -295,17 +310,6 @@ class EditarReceitaOnline {
 
                     switch(key) {
                         case "continue": {
-                            // Obtendo nome da receita selecionada
-                            this.receita['programName'] = this.elements['data']['select_receita']['select'].val();
-
-                            // Escondendo tela de seleção de receita
-                            this.elements['screen']['select_receita'].css("display", "none");
-                            
-                            // Mostrando extremos da tela
-                            $("#screen_bottom", this.container).css("display", "flex");
-                            $("#screen_top", this.container).css("display", "flex");
-                            
-                            this.elements['screen']['initial'].css("display", "grid");
                             break;
                         }
                     }
@@ -333,6 +337,7 @@ class EditarReceitaOnline {
      */
     begin() {
         this.set_events();
+        this.set_receita_names();
         this.manage_disponibility_buttons();
     }
 
@@ -1445,5 +1450,36 @@ class EditarReceitaOnline {
                 );
             }
         }
+    }
+
+    /**
+     * @brief Função que insere os nomes das receitas no select
+     */
+    set_receita_names() {
+        this.load_receita_names();
+
+        let interval = setInterval(() => {
+            if(!this.receita_names) { return; }
+
+            if(this.receita_names != []) {
+                this.receita_names.forEach((receita) => {
+                    this.elements['data']['select_receita']['select'].append(Option(receita, 0, false, false));
+                });
+                clearInterval(interval);
+            }
+        }, 100);
+    }
+
+    /**
+     * @brief Função que carrega os nomes das receitas exitentes na máquina
+     */
+    load_receita_names() {
+        let receita_names_interval; // Variável para armazenar o intervalo de `receita_names`
+        
+        receita_names_interval = setInterval(() => {
+            this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", ["receita_names"]).subscribe((attr) => {
+                this.receita_names  = (attr[0])["value"] == undefined ? false : attr[0]["value"];
+            });
+        }, 100);
     }
 };
