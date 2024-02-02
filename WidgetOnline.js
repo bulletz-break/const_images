@@ -1456,12 +1456,14 @@ class EditarReceitaOnline {
      * @brief Função que insere os nomes das receitas no select
      */
     set_receita_names() {
+        console.log("set_receita_names()");
         this.load_receita_names();
 
         let interval = setInterval(() => {
             if(!this.receita_names) { return; }
 
             if(this.receita_names != []) {
+                console.log(this.receita_names);
                 this.receita_names.forEach((receita) => {
                     this.elements['data']['select_receita']['select'].append(Option(receita, 0, false, false));
                 });
@@ -1474,11 +1476,13 @@ class EditarReceitaOnline {
      * @brief Função que carrega os nomes das receitas exitentes na máquina
      */
     load_receita_names() {
+        console.log("load_receita_names()");
         let receita_names_interval; // Variável para armazenar o intervalo de `receita_names`
         
         receita_names_interval = setInterval(() => {
             this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", ["receita_names"]).subscribe((attr) => {
                 this.receita_names  = (attr[0])["value"] == undefined ? false : attr[0]["value"];
+                console.log("loaded");
             });
         }, 100);
     }
