@@ -1460,7 +1460,10 @@ class EditarReceitaOnline {
         this.load_receita_names();
 
         let interval = setInterval(() => {
-            if(!this.receita_names) { return; }
+            if(!this.receita_names) {
+                return;
+                clearInterval(interval);
+            }
 
             if(this.receita_names != []) {
                 console.log(this.receita_names);
