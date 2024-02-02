@@ -310,6 +310,11 @@ class EditarReceitaOnline {
 
                     switch(key) {
                         case "continue": {
+                            this.receita['programName'] = this.elements['data']['select_receita']['select'].val();
+                            this.load_receita(this.receita['programName']);
+
+                            
+
                             break;
                         }
                     }
