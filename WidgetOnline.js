@@ -1465,10 +1465,9 @@ class EditarReceitaOnline {
                 return;
             }
 
-            if(this.receita_names != []) {
+            if(this.receita_names.length > 0) {
                 console.log("RECEITA NAMES");
                 console.log(this.receita_names);
-                console.log(this.receita_names != []);
                 this.receita_names.forEach((receita) => {
                     this.elements['data']['select_receita']['select'].append(Option(receita, 0, false, false));
                 });
