@@ -1342,28 +1342,50 @@ class EditarReceitaOnline {
     receita_save() {
         // Nome da Receita já informada
         if(this.receita['programName'].trim() != "") {
-            console.log("Receita Para Editar");
+            // Salvando receita nos atributos
+            this.receita_save_attributes();
         } else {
             // Pegando nome da receita
             this.receita['programName'] = this.elements['save']['input'].val().trim();
-            // Definindo nome do arquivo
-            let receita_name    = `${this.elements['save']['input'].val()}.json`;
-            // Criando blob para download
-            let receita_blob    = new Blob([JSON.stringify(this.receita)], { type : 'text/json;charset=utf-8' });
-            // Criando elemento para download
-            let receita_link    = document.createElement("a");
-            // Criando URL para download
-            let receita_url     = URL.createObjectURL(receita_blob);
-            
-            receita_link.setAttribute("href", receita_url);
-            receita_link.setAttribute("download", receita_name);
-
-            receita_link.click();
 
             // Voltando telas
             $("#screen").css("display", "flex");
             this.elements['save']['container'].css("display", "none");
+
+            // Baixando receita
+            // this.receita_download();
+            // Salvando receita nos atributos
+            this.receita_save_attributes();
         }
+    }
+
+    /**
+     * @brief Função para baixar a receita
+     */
+    receita_download() {
+        // Definindo nome do arquivo
+        let receita_name    = `${this.elements['save']['input'].val()}.json`;
+        // Criando blob para download
+        let receita_blob    = new Blob([JSON.stringify(this.receita)], { type : 'text/json;charset=utf-8' });
+        // Criando elemento para download
+        let receita_link    = document.createElement("a");
+        // Criando URL para download
+        let receita_url     = URL.createObjectURL(receita_blob);
+        
+        receita_link.setAttribute("href", receita_url);
+        receita_link.setAttribute("download", receita_name);
+
+        receita_link.click(); 
+    }
+
+    /**
+     * @brief Salva a receita nos atributos compartilhados da máquina
+     */
+    receita_save_attributes() {
+        this.attributeService.saveEntityAttributes(this.entity_id, "SHARED_SCOPE", [{
+            "key"   : `r_${this.receita['programName']}`,
+            "value" : this.receita
+        }]);
     }
 
     /**
