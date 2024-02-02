@@ -1461,8 +1461,8 @@ class EditarReceitaOnline {
 
         let interval = setInterval(() => {
             if(!this.receita_names) {
-                return;
                 clearInterval(interval);
+                return;
             }
 
             if(this.receita_names != []) {
@@ -1480,7 +1480,7 @@ class EditarReceitaOnline {
      */
     load_receita_names() {
         console.log("load_receita_names()");
-        let receita_names_interval; // Variável para armazenar o intervalo de `receita_names`
+        let interval; // Variável para armazenar o intervalo de `receita_names`
         
         receita_names_interval = setInterval(() => {
             this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", ["receita_names"]).subscribe((attr) => {
