@@ -1388,29 +1388,29 @@ class EditarReceitaOnline {
      * @brief Salva a receita nos atributos compartilhados da máquina
      */
     receita_save_attributes() {
-        function success() {
-            let original_color  = this.elements['other']['title'].css("color");
-            let original_text   = this.elements['other']['title'].text();
+        function success(t) {
+            let original_color  = t.elements['other']['title'].css("color");
+            let original_text   = t.elements['other']['title'].text();
 
-            this.elements['other']['title'].css("color", "limegreen");
-            this.elements['other']['title'].text("Receita Salva!");
+            t.elements['other']['title'].css("color", "limegreen");
+            t.elements['other']['title'].text("Receita Salva!");
 
             setTimeout(() => {
-                this.elements['other']['title'].css("color", original_color);
-                this.elements['other']['title'].text(original_text);
+                t.elements['other']['title'].css("color", original_color);
+                t.elements['other']['title'].text(original_text);
             }, 3000);
         }
 
-        function unsuccess() {
-            let original_color  = this.elements['other']['title'].css("color");
-            let original_text   = this.elements['other']['title'].text();
+        function unsuccess(t) {
+            let original_color  = t.elements['other']['title'].css("color");
+            let original_text   = t.elements['other']['title'].text();
 
-            this.elements['other']['title'].css("color", "red");
-            this.elements['other']['title'].text("Erro ao Salvar Receita");
+            t.elements['other']['title'].css("color", "red");
+            t.elements['other']['title'].text("Erro ao Salvar Receita");
 
             setTimeout(() => {
-                this.elements['other']['title'].css("color", original_color);
-                this.elements['other']['title'].text(original_text);
+                t.elements['other']['title'].css("color", original_color);
+                t.elements['other']['title'].text(original_text);
             }, 3000);
         }
 
@@ -1418,8 +1418,8 @@ class EditarReceitaOnline {
             "key"   : `r_${this.receita['programName']}`,
             "value" : this.receita
         }]).subscribe(
-            result  => success(),
-            error   => unsuccess()
+            result  => success(this),
+            error   => unsuccess(this)
         );
     }
 
