@@ -317,7 +317,7 @@ class EditarReceitaOnline {
                             if(this.receita['programName'] != "new") {
                                 this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", [`r_${this.receita['programName']}`]).subscribe((attr) => {
                                     console.log(attr);
-                                    this.receita    = (attr[0] == undefined ? {} : attr[0]);
+                                    this.receita    = (attr[0] == undefined ? {} : attr[0]["value"]);
 
                                     this.step_index = 1;
                                     this.step_init();
@@ -1492,7 +1492,7 @@ class EditarReceitaOnline {
 
             if(this.receita_names.length > 0) {
                 this.receita_names.forEach((receita) => {
-                    this.elements['data']['select_receita']['select'].append(new Option(receita, 0, false, false));
+                    this.elements['data']['select_receita']['select'].append(new Option(receita, receita, false, false));
                 });
                 clearInterval(interval);
             }
