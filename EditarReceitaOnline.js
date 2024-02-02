@@ -317,7 +317,7 @@ class EditarReceitaOnline {
                             if(this.receita['programName'] != "new") {
                                 this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", [`r_${this.receita['programName']}`]).subscribe((attr) => {
                                     console.log(attr);
-                                    this.receita    = (attr[0]["value"] == undefined ? {} : attr[0]["value"]);
+                                    this.receita    = (attr[0] == undefined ? {} : attr[0]);
 
                                     this.step_index = 1;
                                     this.step_init();
