@@ -310,11 +310,32 @@ class EditarReceitaOnline {
 
                     switch(key) {
                         case "continue": {
+                            let can_continue    = false;
                             this.receita['programName'] = this.elements['data']['select_receita']['select'].val();
-                            this.load_receita(this.receita['programName']);
 
-                            
+                            // Editar Receita já existente
+                            if(this.receita['programName'] != "new") {
+                                this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", [`r_${this.receita['programName']}`]).subscribe((attr) => {
+                                    this.receita    = (attr[0]["value"] == undefined ? {} : attr[0]["value"]);
 
+                                    this.step_index = 1;
+                                    this.step_init();
+                                    this.insert_step_data(this.receita[`${this.step_index-1}`]);
+                                    can_continue = true;
+                                });
+                            } else { can_continue = true; }
+
+                            let interval = setInterval(() => {
+                                if(can_continue) {
+                                    this.elements['screen']['select_receita'].css("display", "none");
+
+                                    $("#screen_top", this.container).css("display", "flex");
+                                    this.elements['screen']['initial'].css("display", "grid");
+                                    $("#screen_bottom", this.container).css("display", "flex");
+
+                                    clearInterval(interval);
+                                }
+                            }, 100);
                             break;
                         }
                     }
@@ -1387,7 +1408,6 @@ class EditarReceitaOnline {
         let receita_file;
 
         if(event.type == 'change') {
-            console.log(this.elements['other']['import_receita_real'][0].files);
             receita_file = this.elements['other']['import_receita_real'][0].files[0];
         } else {
             receita_file    = event.originalEvent.dataTransfer.items[0].getAsFile();
@@ -1461,7 +1481,6 @@ class EditarReceitaOnline {
      * @brief Função que insere os nomes das receitas no select
      */
     set_receita_names() {
-        console.log("set_receita_names()");
         this.load_receita_names();
 
         let interval = setInterval(() => {
@@ -1471,8 +1490,6 @@ class EditarReceitaOnline {
             }
 
             if(this.receita_names.length > 0) {
-                console.log("RECEITA NAMES");
-                console.log(this.receita_names);
                 this.receita_names.forEach((receita) => {
                     this.elements['data']['select_receita']['select'].append(new Option(receita, 0, false, false));
                 });
@@ -1484,17 +1501,9 @@ class EditarReceitaOnline {
     /**
      * @brief Função que carrega os nomes das receitas exitentes na máquina
      */
-    load_receita_names() {
-        console.log("load_receita_names()");
-        let interval; // Variável para armazenar o intervalo de `receita_names`
-        
-        interval = setInterval(() => {
-            this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", ["receita_names"]).subscribe((attr) => {
-                console.log(attr);
-                this.receita_names  = (attr[0]["value"] == undefined ? false : attr[0]["value"]);
-                console.log("loaded");
-                clearInterval(interval);
-            });
-        }, 100);
+    load_receita_names() {        
+        this.attributeService.getEntityAttributes(this.entity_id, "SHARED_SCOPE", ["receita_names"]).subscribe((attr) => {
+            this.receita_names  = (attr[0]["value"] == undefined ? false : attr[0]["value"]);
+        });
     }
 };
