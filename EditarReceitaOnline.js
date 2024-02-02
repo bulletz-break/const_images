@@ -1108,7 +1108,7 @@ class EditarReceitaOnline {
                 this.receita[`${this.step_index-1}`] = this.filter_step_data(this.step);
 
                 // Nome da receita já informada
-                if(this.receita['programName'] != "") {
+                if(this.receita['programName'].trim() != "new") {
                     this.receita_save();
                 } else {
                     $("#screen", this.container).css("display", "none");
@@ -1347,7 +1347,7 @@ class EditarReceitaOnline {
      */
     receita_save() {
         // Nome da Receita já informada
-        if(this.receita['programName'].trim() != "") {
+        if(this.receita['programName'].trim() != "new") {
             // Salvando receita nos atributos
             this.receita_save_attributes();
         } else {
