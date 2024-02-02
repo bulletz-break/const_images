@@ -1345,6 +1345,7 @@ class EditarReceitaOnline {
      * @brief Exporta a receita em um arquivo JSON com o nome digitado
      */
     receita_save() {
+        console.log("receita_save()");
         // Nome da Receita já informada
         if(this.receita['programName'].trim() != "") {
             // Salvando receita nos atributos
