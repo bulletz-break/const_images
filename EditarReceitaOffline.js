@@ -1205,7 +1205,9 @@ class EditarReceitaOffline {
             this.set_image_active('initial', index, index, step[relation_index_name[index]]);
 
             if(step[relation_index_name[index]])  {
-                this.elements['data']['initial'][index].click();
+                if((index == "dreno_1" || index == "dreno_2") && !step['Centrifugar']) {
+                    this.elements['data']['initial'][index].click();
+                }
             }
         });
 
