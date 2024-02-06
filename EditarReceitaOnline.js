@@ -1274,10 +1274,16 @@ class EditarReceitaOnline {
         // Inserindo dados da Tela Inicial
         // - Imagens
         Object.keys(this.elements['images']['initial']).forEach((index) => {
-            this.set_image_active('initial', index, index, step[relation_index_name[index]]);
-
-            if(step[relation_index_name[index]])  {
-                if((index == "dreno_1" || index == "dreno_2") && !step['Centrifugar']) {
+            if(index == "dreno_1" || index == "dreno_2") {
+                if(step['Centrifugar']) {
+                    this.elements['data']['initial']['centrifugar'].click();
+                } else {
+                    if(step[relation_index_name[index]])  {
+                        this.elements['data']['initial'][index].click();
+                    }
+                }
+            } else {
+                if(step[relation_index_name[index]])  {
                     this.elements['data']['initial'][index].click();
                 }
             }
