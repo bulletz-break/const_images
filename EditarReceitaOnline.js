@@ -1605,6 +1605,7 @@ class EditarReceitaOnline {
      * @brief Função que insere os nomes das receitas no select
      */
     set_receita_names() {
+        this.receita_names  = [];
         this.load_receita_names();
 
         let interval = setInterval(() => {
