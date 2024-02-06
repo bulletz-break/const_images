@@ -439,73 +439,73 @@ class EditarReceitaOffline {
         this.height = height;
 
         if(this.width <= 700) {
-            $(".screen_division_extremes_item").css({
+            $(".screen_division_extremes_item", this.container).css({
                 "flex-direction" : "column"
             });
     
-            $("#screen").css({
+            $("#screen", this.container).css({
                 "max-height"    : "",
                 "height"        : "100%"
             });
     
-            $(".screen_division_extremes_item_container").css({
+            $(".screen_division_extremes_item_container", this.container).css({
                 "padding" : "10px 0px"
             });
     
-            $(".screen_stage_container_grid").css({
+            $(".screen_stage_container_grid", this.container).css({
                 "grid-template-columns" : "repeat(1, 1fr)"
             });
     
-            $(".screen_division").css({
+            $(".screen_division", this.container).css({
                 "padding" : "10px 0px"
             });
     
-            $("#screen_buttons_container").css({
+            $("#screen_buttons_container", this.container).css({
                 "flex-direction" : "column"
             });
     
-            $(".screen_button_container").css({
+            $(".screen_button_container", this.container).css({
                 "padding" : "10px 0px"
             });
     
-            $(".screen_stage_container_up").css("grid-row", "initial");
-            $(".screen_stage_container_bottom").css("grid-row", "initial");
+            $(".screen_stage_container_up", this.container).css("grid-row", "initial");
+            $(".screen_stage_container_bottom", this.container).css("grid-row", "initial");
     
-            $(".screen_stage_image_back").css("max-width", "50px");
-            $("#screen_stage_produtos_measure_box").css("flex-direction", "column");
-            $(".screen_stage_item_line_container").css("flex-direction", "column");
+            $(".screen_stage_image_back", this.container).css("max-width", "50px");
+            $("#screen_stage_produtos_measure_box", this.container).css("flex-direction", "column");
+            $(".screen_stage_item_line_container", this.container).css("flex-direction", "column");
         } else {
-            $(".screen_division_extremes_item").css({
+            $(".screen_division_extremes_item", this.container).css({
                 "flex-direction" : "row"
             });
     
-            $("#screen").css({
+            $("#screen", this.container).css({
                 "max-height"    : "768px",
                 "height"        : ""
             });
     
-            $(".screen_division_extremes_item_container").css({
+            $(".screen_division_extremes_item_container", this.container).css({
                 "padding" : "0px 0px"
             });
     
-            $(".screen_stage_container_grid").css({
+            $(".screen_stage_container_grid", this.container).css({
                 "grid-template-columns" : "repeat(3, 1fr)"
             });
     
-            $(".screen_division").css({
+            $(".screen_division", this.container).css({
                 "padding" : "00px 0px"
             });
     
-            $("#screen_buttons_container").css({
+            $("#screen_buttons_container", this.container).css({
                 "flex-direction" : "row"
             });
     
-            $(".screen_stage_container_up").css("grid-row", "1");
-            $(".screen_stage_container_bottom").css("grid-row", "2");
+            $(".screen_stage_container_up", this.container).css("grid-row", "1");
+            $(".screen_stage_container_bottom", this.container).css("grid-row", "2");
     
-            $(".screen_stage_image_back").css("max-width", "50px");
-            $("#screen_stage_produtos_measure_box").css("flex-direction", "row");
-            $(".screen_stage_item_line_container").css("flex-direction", "row");
+            $(".screen_stage_image_back", this.container).css("max-width", "50px");
+            $("#screen_stage_produtos_measure_box", this.container).css("flex-direction", "row");
+            $(".screen_stage_item_line_container", this.container).css("flex-direction", "row");
         }
     }
 
@@ -1062,7 +1062,7 @@ class EditarReceitaOffline {
                 this.get_step_data();
                 this.receita[`${this.step_index-1}`] = this.filter_step_data(this.step);
 
-                $("#screen").css("display", "none");
+                $("#screen", this.container).css("display", "none");
                 this.elements['save']['container'].css("display", "flex");
                 break;
             }
@@ -1323,7 +1323,7 @@ class EditarReceitaOffline {
         receita_link.click();
 
         // Voltando telas
-        $("#screen").css("display", "flex");
+        $("#screen", this.container).css("display", "flex");
         this.elements['save']['container'].css("display", "none");
     }
 
@@ -1404,7 +1404,7 @@ class EditarReceitaOffline {
      */
     set_produtos() {
         // Adicionando produtos 1 ~ 8
-        let container = $("#screen_stage_container_produtos_grid"/*, self.ctx.$container*/);
+        let container = $("#screen_stage_container_produtos_grid", this.container);
         for(let i = 0; i < 8; i++) {
             if(i < 4) { // Adicionando elementos da linha de cima
                 container.append(
