@@ -1464,11 +1464,26 @@ class EditarReceitaOnline {
             }, 3000);
         }
 
+        function receita_names_save_attributes(t) {
+            if(t.receita_names.indexOf(t.receita['programName']) < 0) {
+                t.receita_names.push(t.receita['programName']);
+                t.attributeService.saveEntityAttributes(t.entity_id, "SHARED_SCOPE", [{
+                    "key"   : "receita_names",
+                    "value" : t.receita_names
+                }]).subscribe(
+                    result  => success(t),
+                    error   => unsuccess(t)
+                );
+            } else {
+                success(t);
+            }
+        }
+
         this.attributeService.saveEntityAttributes(this.entity_id, "SHARED_SCOPE", [{
             "key"   : `r_${this.receita['programName']}`,
             "value" : this.receita
         }]).subscribe(
-            result  => success(this),
+            result  => receita_names_save_attributes(this),
             error   => unsuccess(this)
         );
     }
