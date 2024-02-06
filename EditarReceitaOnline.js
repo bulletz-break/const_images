@@ -748,7 +748,8 @@ class EditarReceitaOnline {
         };
 
         if(screen == "select_receita") {
-            console.log("Hiding");
+            this.load_receita_names();
+            
             $("#screen_top", this.container).css("display", "none");
             $("#screen_bottom", this.container).css("display", "none");
             Object.keys(this.elements['screen']).forEach((index) => {
