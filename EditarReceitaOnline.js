@@ -702,6 +702,7 @@ class EditarReceitaOnline {
 
             step_index.text(`Passo: ${this.step_index}`);
             this.manage_buttons();
+            this.show_screen("select_receita");
         });
 
         // Importar Receita
@@ -741,6 +742,16 @@ class EditarReceitaOnline {
             "delicate"  : $("#delicate_wash_box", this.container),
             "import_clean"  : $("#import_clean_receita_container", this.container)
         };
+
+        if(screen == "select_receita") {
+            console.log("Hiding");
+            $("#screen_up", this.container).css("display", "none");
+            $("#screen_bottom", this.container).css("display", "none");
+            return;
+        } else {
+            $("#screen_up", this.container).css("display", "flex");
+            $("#screen_bottom", this.container).css("display", "flex");
+        }
 
         // Esconder / mostrar elementos somente da Tela Inicial
         if(screen == "initial") {
