@@ -1616,7 +1616,9 @@ class EditarReceitaOnline {
 
             if(this.receita_names.length > 0) {
                 this.receita_names.forEach((receita) => {
-                    this.elements['data']['select_receita']['select'].append(new Option(receita, receita, false, false));
+                    if(!this.elements['data']['select_receita'].find(`option[value="${receita}"]`)) {
+                        this.elements['data']['select_receita']['select'].append(new Option(receita, receita, false, false));
+                    }
                 });
                 clearInterval(interval);
             }
