@@ -745,7 +745,7 @@ class EditarReceitaOnline {
 
         if(screen == "select_receita") {
             console.log("Hiding");
-            $("#screen_up", this.container).css("display", "none");
+            $("#screen_top", this.container).css("display", "none");
             $("#screen_bottom", this.container).css("display", "none");
             Object.keys(this.elements['screen']).forEach((index) => {
                 this.elements['screen'][index].css("display", "none");
@@ -754,7 +754,7 @@ class EditarReceitaOnline {
             this.elements['screen']['select_receita'].css("display", "flex");
             return;
         } else {
-            $("#screen_up", this.container).css("display", "flex");
+            $("#screen_top", this.container).css("display", "flex");
             $("#screen_bottom", this.container).css("display", "flex");
             this.elements['screen']['select_receita'].css("display", "none");
         }
