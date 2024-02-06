@@ -735,6 +735,7 @@ class EditarReceitaOnline {
      */
     show_screen(screen) {
         let display_type;
+        let title_text;
 
         let element = {
             "step_name" : $("#step_name_box", this.container),
@@ -792,21 +793,40 @@ class EditarReceitaOnline {
 
         switch(screen) {
             // Telas com display do tipo `grid`
-            case "initial":
+            case "initial": {
+                title_text  = "Editor de Receitas";
+                display_type    = "grid";
+                break;
+            }
+
             case "lavar": {
+                title_text  = "Lavagem";
                 display_type = "grid";
                 break;
             }
 
             // Telas com display do tipo `flex`
-            case "aquecimento" :
+            case "aquecimento" : {
+                title_text  = "Aquecimento";
+                display_type    = "flex";
+                break;
+            }
+
             case "centrifugar" : {
+                title_text  = "Centrifugação";
                 display_type = "flex";
+                break;
+            }
+
+            case "produtos" : {
+                title_text  = "Produtos Químicos";
+                display_type    = "block";
                 break;
             }
 
             // Telas com display do tipo `block`
             default : {
+                title_text  = "Editor de Receitas";
                 display_type = "block";
                 break;
             }
@@ -818,6 +838,7 @@ class EditarReceitaOnline {
         });
 
         this.page   = screen;
+        this.elements['other']['title'].text(title_text);
     }
 
     /**

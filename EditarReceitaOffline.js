@@ -1,7 +1,7 @@
 /**
  * @author      Luiz Eurico da Silva Neto
  * @date        19/01/2024
- * @version     1.0.0
+ * @version     1.1.0
  * @copyright   A22 Serviços Industriais
  * 
  * Classe para manipulação do Widget de Criação / Edição de Receitas da Lavadora
@@ -422,7 +422,8 @@ class EditarReceitaOffline {
             "other" : {
                 "clean_receita"         : $("#screen_clean_receita", this.container),
                 "import_receita_fake"   : $("#screen_import_receita_fake", this.container),
-                "import_receita_real"   : $("#screen_import_receita_real", this.container)
+                "import_receita_real"   : $("#screen_import_receita_real", this.container),
+                "title"                 : $("#screen_title", this.container)
             }
         };
     }
@@ -667,6 +668,7 @@ class EditarReceitaOffline {
      */
     show_screen(screen) {
         let display_type;
+        let title_text;
 
         let element = {
             "step_name" : $("#step_name_box", this.container),
@@ -708,21 +710,40 @@ class EditarReceitaOffline {
 
         switch(screen) {
             // Telas com display do tipo `grid`
-            case "initial":
+            case "initial": {
+                title_text  = "Editor de Receitas";
+                display_type    = "grid";
+                break;
+            }
+
             case "lavar": {
+                title_text  = "Lavagem";
                 display_type = "grid";
                 break;
             }
 
             // Telas com display do tipo `flex`
-            case "aquecimento" :
+            case "aquecimento" : {
+                title_text  = "Aquecimento";
+                display_type    = "flex";
+                break;
+            }
+
             case "centrifugar" : {
+                title_text  = "Centrifugação";
                 display_type = "flex";
+                break;
+            }
+
+            case "produtos" : {
+                title_text  = "Produtos Químicos";
+                display_type    = "block";
                 break;
             }
 
             // Telas com display do tipo `block`
             default : {
+                title_text  = "Editor de Receitas";
                 display_type = "block";
                 break;
             }
@@ -734,6 +755,7 @@ class EditarReceitaOffline {
         });
 
         this.page   = screen;
+        this.elements['other']['title'].text(title_text);
     }
 
     /**
@@ -1182,6 +1204,8 @@ class EditarReceitaOffline {
      * @param {Object} step objeto contendo os dados do passo
      */
     insert_step_data(step) {
+        this.step_init();
+
         let relation_index_name = {
             "delicate"      : "delicada",
             "carregar"      : "Carregar",
