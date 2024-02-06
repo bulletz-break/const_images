@@ -1,7 +1,7 @@
 /**
  * @author      Luiz Eurico da Silva Neto
  * @date        01/02/2024
- * @version     2.0.0
+ * @version     2.1.0
  * @copyright   A22 Serviços Industriais
  * 
  * Classe para manipulação do Widget de Criação / Edição de Receitas da Lavadora
@@ -156,10 +156,13 @@ class EditarReceitaOnline {
 
                         case "AguaFria" :
                         case "AguaQuente" : {
-                            // Opção desativada; Ativar
-                            if(!this.step[key]) {
-                                this.step[key] = true;
-                            } else { this.step[key] = false; } // Opção ativada; Desativar
+                            if(key == "AguaFria") {
+                                this.step["AguaQuente"] = false;
+                                this.step["AguaFria"]   = true;
+                            } else {
+                                this.step["AguaFria"]   = false;
+                                this.step["AguaQuente"]   = true;
+                            }
 
                             object = {
                                 "agua_1"        : this.elements['data']['lavar']['agua_1'],

@@ -140,10 +140,13 @@ class EditarReceitaOffline {
 
                         case "AguaFria" :
                         case "AguaQuente" : {
-                            // Opção desativada; Ativar
-                            if(!this.step[key]) {
-                                this.step[key] = true;
-                            } else { this.step[key] = false; } // Opção ativada; Desativar
+                            if(key == "AguaFria") {
+                                this.step["AguaQuente"] = false;
+                                this.step["AguaFria"]   = true;
+                            } else {
+                                this.step["AguaFria"]   = false;
+                                this.step["AguaQuente"]   = true;
+                            }
 
                             object = {
                                 "agua_1"        : this.elements['data']['lavar']['agua_1'],
