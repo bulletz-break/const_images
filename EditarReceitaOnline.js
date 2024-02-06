@@ -751,7 +751,7 @@ class EditarReceitaOnline {
                 this.elements['screen'][index].css("display", "none");
             });
 
-            this.elements['screen']['select_receita'].css("display", "block");
+            this.elements['screen']['select_receita'].css("display", "flex");
             return;
         } else {
             $("#screen_up", this.container).css("display", "flex");
