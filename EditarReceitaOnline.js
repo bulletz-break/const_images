@@ -838,6 +838,7 @@ class EditarReceitaOnline {
         });
 
         this.page   = screen;
+        console.log(title_text);
         this.elements['other']['title'].text(title_text);
     }
 
