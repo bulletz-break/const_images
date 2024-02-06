@@ -747,10 +747,16 @@ class EditarReceitaOnline {
             console.log("Hiding");
             $("#screen_up", this.container).css("display", "none");
             $("#screen_bottom", this.container).css("display", "none");
+            Object.keys(this.elements['screen']).forEach((index) => {
+                this.elements['screen'][index].css("display", "none");
+            });
+
+            this.elements['screen']['select_receita'].css("display", "block");
             return;
         } else {
             $("#screen_up", this.container).css("display", "flex");
             $("#screen_bottom", this.container).css("display", "flex");
+            this.elements['screen']['select_receita'].css("display", "none");
         }
 
         // Esconder / mostrar elementos somente da Tela Inicial
