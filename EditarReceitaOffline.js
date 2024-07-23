@@ -1,7 +1,7 @@
 /**
  * @author      Luiz Eurico da Silva Neto
  * @date        23/07/2024
- * @version     1.1.1
+ * @version     1.1.2
  * @copyright   A22 Serviços Industriais
  * 
  * Classe para manipulação do Widget de Criação / Edição de Receitas da Lavadora
@@ -17,6 +17,8 @@ class EditarReceitaOffline {
      * Construtor da Classe
      */
     constructor(container = null) {
+        console.log("Editor de Receita: v1.1.2");
+
         /**
          * @brief Container para obter os elementos limitados ao Widget
          */
