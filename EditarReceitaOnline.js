@@ -1,7 +1,7 @@
 /**
  * @author      Luiz Eurico da Silva Neto
- * @date        01/02/2024
- * @version     2.1.0
+ * @date        23/07/2024
+ * @version     2.1.1
  * @copyright   A22 Serviços Industriais
  * 
  * Classe para manipulação do Widget de Criação / Edição de Receitas da Lavadora
@@ -284,12 +284,12 @@ class EditarReceitaOnline {
                             break;
                         }
 
-                        case "manterTemperatura" : {
-                            if(this.step["manterTemperatura"]) {
-                                this.step["manterTemperatura"]  = false;
+                        case "manterAquecido" : {
+                            if(this.step["manterAquecido"]) {
+                                this.step["manterAquecido"]  = false;
                                 this.elements['data']['aquecimento']['manter'].val("Não");
                             } else {
-                                this.step["manterTemperatura"]  = true;
+                                this.step["manterAquecido"]  = true;
                                 this.elements['data']['aquecimento']['manter'].val("Sim");
                             }
                             break;
@@ -1025,7 +1025,7 @@ class EditarReceitaOnline {
             delete step['AquecerAgua'];
             delete step['TempAgua'];
             delete step['aguardarPatamar'];
-            delete step['manterTemperatura'];
+            delete step['manterAquecido'];
             delete step['relacao_ml_s'];
             for(let i = 0; i < 8; i++) { delete step[`Soap${i+1}`]; }
         }
@@ -1285,7 +1285,7 @@ class EditarReceitaOnline {
         this.step['AquecerAgua']        = (this.elements['data']['aquecimento']['aquecimento'].val() == 'Ligado');
         this.step['TempAgua']           = Number(this.elements['data']['aquecimento']['setpoint'].val());
         this.step['aguardarPatamar']    = (this.elements['data']['aquecimento']['patamar'].val() == "Sim");
-        this.step['manterTemperatura']  = (this.elements['data']['aquecimento']['manter'].val() == "Sim");
+        this.step['manterAquecido']  = (this.elements['data']['aquecimento']['manter'].val() == "Sim");
 
         // - Pegando se é lavagem delicada
         this.receita['delicada']        = (this.elements['data']['initial']['delicate'].is(":checked"));
@@ -1310,7 +1310,7 @@ class EditarReceitaOnline {
             "aquecimento"   : "AquecerAgua",
             "setpoint"      : "TempAgua",
             "patamar"       : "aguardarPatamar",
-            "manter"        : "manterTemperatura",
+            "manter"        : "manterAquecido",
             "measure"       : "relacao_ml_s",
             "time"          : "Tempo"
         };
@@ -1371,7 +1371,7 @@ class EditarReceitaOnline {
         // - Aguardar Patamar
         this.elements['data']['aquecimento']['patamar'].val((step['aguardarPatamar'] ? "Sim" : "Não"));
         // - Manter Temperatura
-        this.elements['data']['aquecimento']['manter'].val((step['manterTemperatura'] ? "Sim" : "Não"));
+        this.elements['data']['aquecimento']['manter'].val((step['manterAquecido'] ? "Sim" : "Não"));
 
         // Inserindo dados da Tela de Produtos
         // - Produtos 1 ~ 8
